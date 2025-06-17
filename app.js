@@ -60,6 +60,9 @@ app.set('views', path.join(__dirname, 'views'));
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
 
+const loansRoutes = require('./routes/loans');
+app.use('/loans', loansRoutes);
+
 // Basic route
 app.get('/', (req, res) => {
     res.render('index', { 
