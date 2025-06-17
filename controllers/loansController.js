@@ -1,47 +1,193 @@
 const loanModel = require('../models/loanModel');
 
+/**
+ * Create a new loan for a user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 const createLoan = async (req, res) => {
     try {
         const userId = req.session.userId;
         const { book_id, loan_duration } = req.body;
 
-        // Validate input
+        // Input validation
         if (!book_id || !loan_duration) {
-            return res.status(400).json({ error: 'book_id and loan_duration are required' });
-        }
-        const loanDurationNum = parseInt(loan_duration, 10);
-        if (isNaN(loanDurationNum) || loanDurationNum <= 0) {
-            return res.status(400).json({ error: 'loan_duration must be a positive integer' });
+            return res.status(400).json({ 
+                success: false,
+                error: 'book_id and loan_duration are required',
+                details: {
+                    book_id: !book_id ? 'Book ID is required' : null,
+                    loan_duration: !loan_duration ? 'Loan duration is required' : null
+                }
+            });
         }
 
-        // Check if user exists
-        const userExists = await loanModel.checkUserExists(userId);
-        if (!userExists) {
-            return res.status(404).json({ error: 'User not found' });
+        // Validate loan duration
+        if (!loanModel.validateLoanDuration(loan_duration)) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'Invalid loan duration',
+                details: 'Loan duration must be a positive integer between 1 and 30 days'
+            });
+        }
+
+        const bookIdNum = parseInt(book_id, 10);
+        const loanDurationNum = parseInt(loan_duration, 10);
+
+        if (isNaN(bookIdNum) || bookIdNum <= 0) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'Invalid book ID',
+                details: 'Book ID must be a positive integer'
+            });
+        }
+
+        // Check if user exists and is active
+        const user = await loanModel.checkUserExists(userId);
+        if (!user) {
+            return res.status(404).json({ 
+                success: false,
+                error: 'User not found or inactive',
+                details: 'User account does not exist or has been deactivated'
+            });
         }
 
         // Check if book exists
-        const bookExists = await loanModel.checkBookExists(book_id);
-        if (!bookExists) {
-            return res.status(404).json({ error: 'Book not found' });
+        const book = await loanModel.checkBookExists(bookIdNum);
+        if (!book) {
+            return res.status(404).json({ 
+                success: false,
+                error: 'Book not found',
+                details: 'The requested book does not exist in our library'
+            });
+        }
+
+        // Check book availability (stock vs active loans)
+        const isBookAvailable = await loanModel.checkBookAvailability(bookIdNum);
+        if (!isBookAvailable) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'Book not available',
+                details: 'All copies of this book are currently on loan'
+            });
         }
 
         // Check if user already has an active loan for this book
-        const hasActiveLoan = await loanModel.checkUserActiveLoan(userId, book_id);
+        const hasActiveLoan = await loanModel.checkUserActiveLoan(userId, bookIdNum);
         if (hasActiveLoan) {
-            return res.status(400).json({ error: 'User already has an active loan for this book' });
+            return res.status(400).json({ 
+                success: false,
+                error: 'Duplicate loan',
+                details: 'You already have an active loan for this book'
+            });
+        }
+
+        // Check user's total active loans (optional: limit to 5 books per user)
+        const activeLoanCount = await loanModel.getUserActiveLoanCount(userId);
+        const MAX_LOANS_PER_USER = 5;
+        
+        if (activeLoanCount >= MAX_LOANS_PER_USER) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'Loan limit exceeded',
+                details: `You have reached the maximum limit of ${MAX_LOANS_PER_USER} active loans`
+            });
         }
 
         // Create loan
-        const loanId = await loanModel.createLoan(userId, book_id, loanDurationNum);
+        const loanId = await loanModel.createLoan(userId, bookIdNum, loanDurationNum);
 
-        return res.status(201).json({ message: 'Loan created successfully', loan_id: loanId });
+        // Get loan details for response
+        const loanDetails = await loanModel.getLoanById(loanId);
+
+        return res.status(201).json({ 
+            success: true,
+            message: 'Loan created successfully',
+            data: {
+                loan_id: loanId,
+                user_name: user.name,
+                book_title: book.title,
+                book_author: book.author,
+                loans_date: loanDetails.loans_date,
+                due_date: loanDetails.due_date,
+                loan_duration: loanDurationNum,
+                status: 'borrowed'
+            }
+        });
+
     } catch (error) {
         console.error('Error creating loan:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        
+        // Handle specific database errors
+        if (error.message.includes('foreign key constraint')) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'Invalid reference',
+                details: 'User ID or Book ID does not exist'
+            });
+        }
+
+        return res.status(500).json({ 
+            success: false,
+            error: 'Internal server error',
+            details: 'An unexpected error occurred while processing your request'
+        });
+    }
+};
+
+/**
+ * Get loan details by ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const getLoan = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.session.userId;
+
+        if (!id || isNaN(parseInt(id))) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'Invalid loan ID',
+                details: 'Loan ID must be a valid number'
+            });
+        }
+
+        const loan = await loanModel.getLoanById(parseInt(id));
+        
+        if (!loan) {
+            return res.status(404).json({ 
+                success: false,
+                error: 'Loan not found',
+                details: 'The requested loan does not exist'
+            });
+        }
+
+        // Check if user owns this loan (for security)
+        if (loan.user_id !== userId) {
+            return res.status(403).json({ 
+                success: false,
+                error: 'Access denied',
+                details: 'You can only view your own loans'
+            });
+        }
+
+        return res.status(200).json({ 
+            success: true,
+            data: loan
+        });
+
+    } catch (error) {
+        console.error('Error getting loan:', error);
+        return res.status(500).json({ 
+            success: false,
+            error: 'Internal server error',
+            details: 'An unexpected error occurred while retrieving loan details'
+        });
     }
 };
 
 module.exports = {
-    createLoan
+    createLoan,
+    getLoan
 };

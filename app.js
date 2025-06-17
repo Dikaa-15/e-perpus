@@ -25,16 +25,31 @@ connection.connect((err) => {
     console.log('Connected to database successfully!');
 });
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('Session cookie secure flag:', isProduction);
+
 // Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: isProduction,
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));
+
+// Debug logging only in development environment
+if (process.env.NODE_ENV === 'development') {
+    app.use((req, res, next) => {
+        console.log('Session ID:', req.sessionID);
+        console.log('Session user:', req.session.user);
+        console.log('Cookies:', req.headers.cookie);
+        next();
+    });
+}
 
 // Flash messages
 app.use(flash());
