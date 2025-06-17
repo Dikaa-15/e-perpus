@@ -1,0 +1,65 @@
+<%- include('layout', { title: 'Beranda' }) %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center mb-5">
+            <h1 class="display-4">Selamat Datang di E-Perpustakaan</h1>
+            <p class="lead">Temukan berbagai koleksi buku dan artikel menarik</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Total Buku</h5>
+                    <p class="card-text display-6">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-newspaper fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Total Artikel</h5>
+                    <p class="card-text display-6">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-users fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">Total Anggota</h5>
+                    <p class="card-text display-6">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Books -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="mb-4">Buku Populer</h2>
+        </div>
+        <div class="col-12">
+            <div class="alert alert-info">
+                Belum ada buku yang ditampilkan.
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest Articles -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Artikel Terbaru</h2>
+        </div>
+        <div class="col-12">
+            <div class="alert alert-info">
+                Belum ada artikel yang ditampilkan.
+            </div>
+        </div>
+    </div>
+</div>
