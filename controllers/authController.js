@@ -40,7 +40,12 @@ const authController = {
 
             // Set session
             req.session.userId = user.id;
-            req.session.username = user.username;
+            req.session.user = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                roles: user.roles
+            };
             
             req.flash('success', 'Login successful');
             res.redirect('/');
@@ -54,33 +59,54 @@ const authController = {
     // Handle registration
     register: async (req, res) => {
         try {
-            const { username, email, password, confirmPassword } = req.body;
+            const { name, email, password, phone, nik, address, date_of_birth, gender } = req.body;
 
-            // Validate password match
-            if (password !== confirmPassword) {
-                req.flash('error', 'Passwords do not match');
+            // Validate date_of_birth
+            if (date_of_birth) {
+                const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+                if (!dateRegex.test(date_of_birth)) {
+                    req.flash('error', 'Format tanggal lahir tidak valid. Gunakan format YYYY-MM-DD');
+                    return res.redirect('/auth/register');
+                }
+
+                const birthDate = new Date(date_of_birth);
+                const today = new Date();
+                if (birthDate > today || birthDate.getFullYear() < 1900) {
+                    req.flash('error', 'Tanggal lahir tidak valid');
+                    return res.redirect('/auth/register');
+                }
+            }
+
+            // Validate phone number
+            if (phone && phone.length > 20) {
+                req.flash('error', 'Nomor telepon terlalu panjang (maksimal 20 karakter)');
                 return res.redirect('/auth/register');
             }
 
             // Check if user already exists
             const existingUser = await User.findByEmail(email);
             if (existingUser) {
-                req.flash('error', 'Email already registered');
+                req.flash('error', 'Email sudah terdaftar');
                 return res.redirect('/auth/register');
             }
 
             // Create new user
             const userId = await User.create({
-                username,
+                name,
                 email,
-                password
+                password,
+                phone: phone || null,
+                nik: nik || null,
+                address: address || null,
+                date_of_birth: date_of_birth || null,
+                gender: gender || null
             });
 
-            req.flash('success', 'Registration successful. Please login.');
+            req.flash('success', 'Registrasi berhasil! Silakan login.');
             res.redirect('/auth/login');
         } catch (error) {
             console.error('Registration error:', error);
-            req.flash('error', 'An error occurred during registration');
+            req.flash('error', 'Terjadi kesalahan saat registrasi');
             res.redirect('/auth/register');
         }
     },

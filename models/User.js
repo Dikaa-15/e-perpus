@@ -20,7 +20,7 @@ class User {
         const connection = await pool.getConnection();
         try {
             const [rows] = await connection.execute(
-                'SELECT id, username, email FROM users WHERE id = ?',
+                'SELECT id, name, email, roles, phone, nik, address, date_of_birth, gender, is_active FROM users WHERE id = ?',
                 [id]
             );
             return rows[0];
@@ -34,8 +34,28 @@ class User {
         try {
             const hashedPassword = await bcrypt.hash(userData.password, 10);
             const [result] = await connection.execute(
-                'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-                [userData.username, userData.email, hashedPassword]
+                `INSERT INTO users (
+                    name, 
+                    email, 
+                    password, 
+                    phone, 
+                    nik, 
+                    address, 
+                    date_of_birth, 
+                    gender,
+                    roles,
+                    is_active
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'user', true)`,
+                [
+                    userData.name,
+                    userData.email,
+                    hashedPassword,
+                    userData.phone || null,
+                    userData.nik || null,
+                    userData.address || null,
+                    userData.date_of_birth || null,
+                    userData.gender || null
+                ]
             );
             return result.insertId;
         } finally {
@@ -45,6 +65,18 @@ class User {
 
     static async verifyPassword(plainPassword, hashedPassword) {
         return await bcrypt.compare(plainPassword, hashedPassword);
+    }
+
+    static async updateLastLogin(userId) {
+        const connection = await pool.getConnection();
+        try {
+            await connection.execute(
+                'UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = ?',
+                [userId]
+            );
+        } finally {
+            connection.release();
+        }
     }
 }
 

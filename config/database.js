@@ -35,41 +35,90 @@ async function createDatabase() {
     }
 }
 
-// Function to create tables
-async function createTables() {
+// Function to update tables
+async function updateTables() {
+    const connection = await pool.getConnection();
     try {
-        const connection = await pool.getConnection();
-        
-        // Create tables in order (considering foreign key constraints)
-        await connection.execute(schema.createUsersTable);
-        console.log('Users table created successfully');
-        
-        await connection.execute(schema.createCategoriesTable);
-        console.log('Categories table created successfully');
-        
-        await connection.execute(schema.createBooksTable);
-        console.log('Books table created successfully');
-        
-        await connection.execute(schema.createArticlesTable);
-        console.log('Articles table created successfully');
-        
-        await connection.execute(schema.createFavoritsTable);
-        console.log('Favorits table created successfully');
-        
-        await connection.execute(schema.createLoansTable);
-        console.log('Loans table created successfully');
-        
+        // Update users table
+        console.log('Updating users table...');
+        for (const query of schema.updateUsersTableColumns) {
+            try {
+                await connection.execute(query);
+            } catch (error) {
+                if (!error.message.includes('Duplicate column name')) {
+                    console.error('Error executing query:', query);
+                    console.error('Error message:', error.message);
+                }
+            }
+        }
+        console.log('Users table update completed');
+
+        // Update categories table
+        console.log('Updating categories table...');
+        for (const query of schema.updateCategoriesTableColumns) {
+            try {
+                await connection.execute(query);
+            } catch (error) {
+                if (!error.message.includes('Duplicate column name')) {
+                    console.error('Error executing query:', query);
+                    console.error('Error message:', error.message);
+                }
+            }
+        }
+        console.log('Categories table update completed');
+
+        // Update books table
+        console.log('Updating books table...');
+        for (const query of schema.updateBooksTableColumns) {
+            try {
+                await connection.execute(query);
+            } catch (error) {
+                if (!error.message.includes('Duplicate column name')) {
+                    console.error('Error executing query:', query);
+                    console.error('Error message:', error.message);
+                }
+            }
+        }
+        console.log('Books table update completed');
+
+        // Update articles table
+        console.log('Updating articles table...');
+        for (const query of schema.updateArticlesTableColumns) {
+            try {
+                await connection.execute(query);
+            } catch (error) {
+                if (!error.message.includes('Duplicate column name')) {
+                    console.error('Error executing query:', query);
+                    console.error('Error message:', error.message);
+                }
+            }
+        }
+        console.log('Articles table update completed');
+
+        // Update loans table
+        console.log('Updating loans table...');
+        for (const query of schema.updateLoansTableColumns) {
+            try {
+                await connection.execute(query);
+            } catch (error) {
+                if (!error.message.includes('Duplicate column name')) {
+                    console.error('Error executing query:', query);
+                    console.error('Error message:', error.message);
+                }
+            }
+        }
+        console.log('Loans table update completed');
+
+        console.log('All table updates completed!');
+    } finally {
         connection.release();
-        console.log('All tables created successfully!');
-    } catch (error) {
-        console.error('Error creating tables:', error);
     }
 }
 
 // Initialize database
 async function initializeDatabase() {
     await createDatabase();
-    await createTables();
+    await updateTables();
 }
 
 module.exports = {

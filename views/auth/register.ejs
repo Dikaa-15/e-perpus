@@ -1,262 +1,236 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> - E-Perpustakaan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .auth-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-        }
-    </style>
-</head>
-<body class="auth-bg min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
-        <!-- Logo/Brand -->
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full shadow-lg mb-4">
-                <i class="fas fa-book text-2xl text-blue-600"></i>
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full shadow-lg mb-4">
+                <i class="fas fa-book text-2xl text-white"></i>
             </div>
-            <h1 class="text-3xl font-bold text-white mb-2">E-Perpustakaan</h1>
-            <p class="text-blue-100">Buat akun baru Anda</p>
+            <h2 class="text-3xl font-bold text-gray-900">Daftar Akun Baru</h2>
+            <p class="mt-2 text-gray-600">Bergabunglah dengan E-Perpustakaan</p>
         </div>
+    </div>
 
-        <!-- Register Form -->
-        <div class="glass-effect rounded-2xl shadow-2xl p-8">
-            <form action="/auth/register" method="POST" id="registerForm">
-                <!-- Username Field -->
-                <div class="mb-6">
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-user mr-2"></i>Username
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-xl rounded-lg sm:px-10">
+            <form class="space-y-6" action="/auth/register" method="POST" id="registerForm">
+                <!-- Name Field -->
+                <div>
+                    <label for="name" class="block text-sm font-medium leading-6 text-gray-900">
+                        <i class="fas fa-user mr-2"></i>Nama Lengkap
                     </label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300"
-                        placeholder="Masukkan username Anda"
-                    >
+                    <div class="mt-2">
+                        <input id="name" name="name" type="text" required 
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
+                               placeholder="Masukkan nama lengkap Anda">
+                    </div>
                 </div>
 
                 <!-- Email Field -->
-                <div class="mb-6">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                <div>
+                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
                         <i class="fas fa-envelope mr-2"></i>Email
                     </label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300"
-                        placeholder="Masukkan email Anda"
-                    >
+                    <div class="mt-2">
+                        <input id="email" name="email" type="email" autocomplete="email" required 
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
+                               placeholder="Masukkan email Anda">
+                    </div>
                 </div>
 
                 <!-- Password Field -->
-                <div class="mb-6">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                <div>
+                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">
                         <i class="fas fa-lock mr-2"></i>Password
                     </label>
-                    <div class="relative">
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300 pr-12"
-                            placeholder="Masukkan password Anda"
-                        >
-                        <button 
-                            type="button" 
-                            onclick="togglePassword('password', 'toggleIcon1')"
-                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                        >
+                    <div class="mt-2 relative">
+                        <input id="password" name="password" type="password" autocomplete="new-password" required 
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3 pr-10"
+                               placeholder="Masukkan password Anda">
+                        <button type="button" onclick="togglePassword('password', 'toggleIcon1')"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
                             <i class="fas fa-eye" id="toggleIcon1"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Confirm Password Field -->
-                <div class="mb-6">
-                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-lock mr-2"></i>Konfirmasi Password
+                <!-- Phone Field -->
+                <div>
+                    <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">
+                        <i class="fas fa-phone mr-2"></i>Nomor Telepon
                     </label>
-                    <div class="relative">
-                        <input 
-                            type="password" 
-                            id="confirmPassword" 
-                            name="confirmPassword" 
-                            required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300 pr-12"
-                            placeholder="Konfirmasi password Anda"
-                        >
-                        <button 
-                            type="button" 
-                            onclick="togglePassword('confirmPassword', 'toggleIcon2')"
-                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                        >
-                            <i class="fas fa-eye" id="toggleIcon2"></i>
-                        </button>
+                    <div class="mt-2">
+                        <input id="phone" name="phone" type="tel" 
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
+                               placeholder="Masukkan nomor telepon">
+                    </div>
+                </div>
+
+                <!-- NIK Field -->
+                <div>
+                    <label for="nik" class="block text-sm font-medium leading-6 text-gray-900">
+                        <i class="fas fa-id-card mr-2"></i>NIK
+                    </label>
+                    <div class="mt-2">
+                        <input id="nik" name="nik" type="text" 
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
+                               placeholder="Masukkan NIK">
+                    </div>
+                </div>
+
+                <!-- Address Field -->
+                <div>
+                    <label for="address" class="block text-sm font-medium leading-6 text-gray-900">
+                        <i class="fas fa-map-marker-alt mr-2"></i>Alamat
+                    </label>
+                    <div class="mt-2">
+                        <textarea id="address" name="address" rows="3" 
+                                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
+                                  placeholder="Masukkan alamat lengkap"></textarea>
+                    </div>
+                </div>
+
+                <!-- Date of Birth Field -->
+                <div>
+                    <label for="date_of_birth" class="block text-sm font-medium leading-6 text-gray-900">
+                        <i class="fas fa-calendar mr-2"></i>Tanggal Lahir
+                    </label>
+                    <div class="mt-2">
+                        <input id="date_of_birth" name="date_of_birth" type="date" 
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3">
+                    </div>
+                </div>
+
+                <!-- Gender Field -->
+                <div>
+                    <label for="gender" class="block text-sm font-medium leading-6 text-gray-900">
+                        <i class="fas fa-venus-mars mr-2"></i>Jenis Kelamin
+                    </label>
+                    <div class="mt-2">
+                        <select id="gender" name="gender" 
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3">
+                            <option value="">Pilih Jenis Kelamin</option>
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Perempuan</option>
+                        </select>
                     </div>
                 </div>
 
                 <!-- Terms and Conditions -->
-                <div class="mb-6">
-                    <label class="flex items-start">
-                        <input type="checkbox" id="terms" required class="mt-1 rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                        <span class="ml-2 text-sm text-gray-600">
-                            Saya setuju dengan <a href="#" class="text-blue-600 hover:text-blue-800">Syarat dan Ketentuan</a> serta <a href="#" class="text-blue-600 hover:text-blue-800">Kebijakan Privasi</a>
-                        </span>
+                <div class="flex items-start">
+                    <input id="terms" name="terms" type="checkbox" required
+                           class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600">
+                    <label for="terms" class="ml-2 block text-sm text-gray-900">
+                        Saya setuju dengan <a href="#" class="text-blue-600 hover:text-blue-500">Syarat dan Ketentuan</a> 
+                        serta <a href="#" class="text-blue-600 hover:text-blue-500">Kebijakan Privasi</a>
                     </label>
                 </div>
 
                 <!-- Register Button -->
-                <button 
-                    type="submit" 
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg"
-                >
-                    <i class="fas fa-user-plus mr-2"></i>Daftar
-                </button>
+                <div>
+                    <button type="submit" 
+                            class="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition duration-300">
+                        <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
+                    </button>
+                </div>
             </form>
 
-            <!-- Divider -->
-            <div class="my-6 flex items-center">
-                <div class="flex-1 border-t border-gray-300"></div>
-                <span class="px-4 text-sm text-gray-500">atau</span>
-                <div class="flex-1 border-t border-gray-300"></div>
-            </div>
-
             <!-- Login Link -->
-            <div class="text-center">
-                <p class="text-gray-600">
-                    Sudah punya akun? 
-                    <a href="/auth/login" class="text-blue-600 hover:text-blue-800 font-semibold transition duration-300">
-                        Masuk sekarang
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Back to Home -->
-        <div class="text-center mt-6">
-            <a href="/" class="text-blue-100 hover:text-white transition duration-300">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali ke Beranda
-            </a>
+            <p class="mt-10 text-center text-sm text-gray-500">
+                Sudah punya akun?
+                <a href="/auth/login" class="font-semibold leading-6 text-blue-600 hover:text-blue-500">Masuk di sini</a>
+            </p>
         </div>
     </div>
+</div>
 
-    <!-- Flash Messages Data -->
-    <div id="flashData" style="display: none;">
-        <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
-            <span data-type="error" data-message="<%= error[0] %>"></span>
-        <% } %>
-        <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
-            <span data-type="success" data-message="<%= success[0] %>"></span>
-        <% } %>
-    </div>
+<!-- Flash Messages Data -->
+<div id="flashData" style="display: none;">
+    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+        <span data-type="error" data-message="<%= error[0] %>"></span>
+    <% } %>
+    <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+        <span data-type="success" data-message="<%= success[0] %>"></span>
+    <% } %>
+</div>
 
-    <script>
-        function togglePassword(fieldId, iconId) {
-            const passwordField = document.getElementById(fieldId);
-            const toggleIcon = document.getElementById(iconId);
-            
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordField.type = 'password';
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            }
+<script>
+    function togglePassword(fieldId, iconId) {
+        const passwordField = document.getElementById(fieldId);
+        const toggleIcon = document.getElementById(iconId);
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Show flash messages
+    document.addEventListener('DOMContentLoaded', function() {
+        const flashData = document.getElementById('flashData');
+        const errorSpan = flashData.querySelector('[data-type="error"]');
+        const successSpan = flashData.querySelector('[data-type="success"]');
+
+        if (errorSpan) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorSpan.getAttribute('data-message'),
+                confirmButtonColor: '#3B82F6'
+            });
         }
 
-        // Show flash messages
-        document.addEventListener('DOMContentLoaded', function() {
-            const flashData = document.getElementById('flashData');
-            const errorSpan = flashData.querySelector('[data-type="error"]');
-            const successSpan = flashData.querySelector('[data-type="success"]');
+        if (successSpan) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: successSpan.getAttribute('data-message'),
+                confirmButtonColor: '#3B82F6'
+            });
+        }
+    });
 
-            if (errorSpan) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: errorSpan.getAttribute('data-message'),
-                    confirmButtonColor: '#3B82F6'
-                });
-            }
+    // Form validation
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const terms = document.getElementById('terms').checked;
 
-            if (successSpan) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: successSpan.getAttribute('data-message'),
-                    confirmButtonColor: '#3B82F6'
-                });
-            }
-        });
+        if (!name || !email || !password) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Mohon lengkapi field yang wajib diisi!',
+                confirmButtonColor: '#3B82F6'
+            });
+            return;
+        }
 
-        // Form validation
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const terms = document.getElementById('terms').checked;
+        if (password.length < 6) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Password minimal 6 karakter!',
+                confirmButtonColor: '#3B82F6'
+            });
+            return;
+        }
 
-            if (!username || !email || !password || !confirmPassword) {
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Mohon lengkapi semua field!',
-                    confirmButtonColor: '#3B82F6'
-                });
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Password dan konfirmasi password tidak sama!',
-                    confirmButtonColor: '#3B82F6'
-                });
-                return;
-            }
-
-            if (password.length < 6) {
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Password minimal 6 karakter!',
-                    confirmButtonColor: '#3B82F6'
-                });
-                return;
-            }
-
-            if (!terms) {
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Mohon setujui syarat dan ketentuan!',
-                    confirmButtonColor: '#3B82F6'
-                });
-                return;
-            }
-        });
-    </script>
-</body>
-</html>
+        if (!terms) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Mohon setujui syarat dan ketentuan!',
+                confirmButtonColor: '#3B82F6'
+            });
+            return;
+        }
+    });
+</script>
