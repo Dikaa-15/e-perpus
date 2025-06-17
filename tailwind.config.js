@@ -2,7 +2,14 @@
 module.exports = {
   content: ["./views/**/*.ejs", "./public/**/*.js"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: {
+          light: '#FFF1CA',
+          DEFAULT: '#FFB823',
+        }
+      },
+    },
   },
   plugins: [],
 }

@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const session = require('express-session');
 const flash = require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
+const methodOverride = require('method-override');
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use((req, res, next) => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // View engine setup
@@ -58,7 +60,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 const authRoutes = require('./routes/auth');
+const dashboardRoutes = require('./routes/dashboard');
+
 app.use('/auth', authRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

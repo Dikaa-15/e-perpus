@@ -47,8 +47,11 @@ const authController = {
                 roles: user.roles
             };
             
-            req.flash('success', 'Login successful');
-            res.redirect('/');
+            // Update last login timestamp
+            await User.updateLastLogin(user.id);
+            
+            req.flash('success', 'Login berhasil');
+            res.redirect('/dashboard');
         } catch (error) {
             console.error('Login error:', error);
             req.flash('error', 'An error occurred during login');

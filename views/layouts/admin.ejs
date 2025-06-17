@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#FFF1CA',
+                            DEFAULT: '#FFB823',
+                            dark: '#E6A520'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-primary { background-color: #FFB823; }
+            .bg-primary-light { background-color: #FFF1CA; }
+            .bg-primary-dark { background-color: #E6A520; }
+            .text-primary { color: #FFB823; }
+            .text-primary-light { color: #FFF1CA; }
+            .text-primary-dark { color: #E6A520; }
+            .border-primary { border-color: #FFB823; }
+            .border-primary-light { border-color: #FFF1CA; }
+            .border-primary-dark { border-color: #E6A520; }
+            .hover\:bg-primary:hover { background-color: #FFB823; }
+            .hover\:bg-primary-light:hover { background-color: #FFF1CA; }
+            .hover\:bg-primary-dark:hover { background-color: #E6A520; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="bg-primary w-64 min-h-screen flex flex-col fixed">
+            <!-- Logo -->
+            <div class="bg-primary p-4 border-b border-primary-light">
+                <div class="flex items-center">
+                    <i class="fas fa-book text-white text-2xl mr-3"></i>
+                    <span class="text-white text-lg font-semibold">E-Perpustakaan</span>
+                </div>
+            </div>
+
+            <!-- Admin Info -->
+            <div class="p-4 border-b border-primary-light">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center">
+                        <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-white font-medium"><%= user.name %></p>
+                        <p class="text-primary-light text-sm">Administrator</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 px-2 py-4">
+                <a href="/dashboard" class="flex items-center px-4 py-3 text-white hover:bg-primary-light rounded-lg mb-1 transition-colors <%= path === '/dashboard' ? 'bg-primary-light' : '' %>">
+                    <i class="fas fa-home w-5"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+                <a href="/dashboard/users" class="flex items-center px-4 py-3 text-white hover:bg-primary-light rounded-lg mb-1 transition-colors <%= path === '/dashboard/users' ? 'bg-primary-light' : '' %>">
+                    <i class="fas fa-users w-5"></i>
+                    <span class="ml-3">Users</span>
+                </a>
+                <a href="/dashboard/books" class="flex items-center px-4 py-3 text-white hover:bg-primary-light rounded-lg mb-1 transition-colors <%= path === '/dashboard/books' ? 'bg-primary-light' : '' %>">
+                    <i class="fas fa-book w-5"></i>
+                    <span class="ml-3">Books</span>
+                </a>
+                <a href="/dashboard/categories" class="flex items-center px-4 py-3 text-white hover:bg-primary-light rounded-lg mb-1 transition-colors <%= path === '/dashboard/categories' ? 'bg-primary-light' : '' %>">
+                    <i class="fas fa-tags w-5"></i>
+                    <span class="ml-3">Categories</span>
+                </a>
+                <a href="/dashboard/favorites" class="flex items-center px-4 py-3 text-white hover:bg-primary-light rounded-lg mb-1 transition-colors <%= path === '/dashboard/favorites' ? 'bg-primary-light' : '' %>">
+                    <i class="fas fa-heart w-5"></i>
+                    <span class="ml-3">Favorites</span>
+                </a>
+                <a href="/dashboard/articles" class="flex items-center px-4 py-3 text-white hover:bg-primary-light rounded-lg mb-1 transition-colors <%= path === '/dashboard/articles' ? 'bg-primary-light' : '' %>">
+                    <i class="fas fa-newspaper w-5"></i>
+                    <span class="ml-3">Articles</span>
+                </a>
+                <a href="/dashboard/loans" class="flex items-center px-4 py-3 text-white hover:bg-primary-light rounded-lg mb-1 transition-colors <%= path === '/dashboard/loans' ? 'bg-primary-light' : '' %>">
+                    <i class="fas fa-clipboard-list w-5"></i>
+                    <span class="ml-3">Loans</span>
+                </a>
+            </nav>
+
+            <!-- Logout Button -->
+            <div class="p-4 border-t border-primary-light">
+                <form action="/auth/logout" method="POST">
+                    <button type="submit" class="flex items-center w-full px-4 py-3 text-white hover:bg-primary-light rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt w-5"></i>
+                        <span class="ml-3">Logout</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-64 flex-1 p-8">
+            <!-- Header -->
+            <header class="mb-8">
+                <h1 class="text-2xl font-bold text-gray-900"><%= title %></h1>
+                <nav class="mt-2">
+                    <ol class="flex text-sm text-gray-500">
+                        <li><a href="/dashboard" class="hover:text-primary">Dashboard</a></li>
+                        <% if (path !== '/dashboard') { %>
+                            <li class="mx-2">/</li>
+                            <li class="text-gray-900"><%= title %></li>
+                        <% } %>
+                    </ol>
+                </nav>
+            </header>
+
+            <!-- Page Content -->
+            <%- body %>
+        </main>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
