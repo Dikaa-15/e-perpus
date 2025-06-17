@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql2');
+const session = require('express-session');
+const flash = require('connect-flash');
+const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 
@@ -22,18 +25,47 @@ connection.connect((err) => {
     console.log('Connected to database successfully!');
 });
 
+// Session configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+// Flash messages
+app.use(flash());
+
+// Global variables
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    next();
+});
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // View engine setup
+app.use(expressLayouts);
+app.set('layout', 'layout');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Routes
+const authRoutes = require('./routes/auth');
+app.use('/auth', authRoutes);
+
 // Basic route
 app.get('/', (req, res) => {
-    res.render('index', { title: 'E-Perpustakaan' });
+    res.render('index', { 
+        title: 'E-Perpustakaan',
+        user: req.session.user || null
+    });
 });
 
 // Error handler
