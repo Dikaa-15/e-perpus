@@ -8,17 +8,38 @@ const loanModel = require('../models/loanModel');
 const createLoan = async (req, res) => {
     try {
         const userId = req.session.userId;
-        const { book_id, loan_duration } = req.body;
+        const { book_id, loans_date, loan_duration, due_date, purpose } = req.body;
 
         // Input validation
-        if (!book_id || !loan_duration) {
+        if (!book_id || !loans_date || !loan_duration || !due_date) {
             return res.status(400).json({ 
                 success: false,
-                error: 'book_id and loan_duration are required',
+                error: 'Missing required fields',
                 details: {
                     book_id: !book_id ? 'Book ID is required' : null,
-                    loan_duration: !loan_duration ? 'Loan duration is required' : null
+                    loans_date: !loans_date ? 'Loan date is required' : null,
+                    loan_duration: !loan_duration ? 'Loan duration is required' : null,
+                    due_date: !due_date ? 'Due date is required' : null
                 }
+            });
+        }
+
+        // Validate dates
+        const currentDate = new Date().toISOString().split('T')[0];
+        if (loans_date < currentDate) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid loan date',
+                details: 'Loan date cannot be in the past'
+            });
+        }
+
+        // Validate due date is after loan date
+        if (due_date <= loans_date) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid due date',
+                details: 'Due date must be after loan date'
             });
         }
 
@@ -94,8 +115,8 @@ const createLoan = async (req, res) => {
             });
         }
 
-        // Create loan
-        const loanId = await loanModel.createLoan(userId, bookIdNum, loanDurationNum);
+        // Create loan with all fields
+        const loanId = await loanModel.createLoan(userId, bookIdNum, loans_date, loanDurationNum, due_date, purpose);
 
         // Get loan details for response
         const loanDetails = await loanModel.getLoanById(loanId);

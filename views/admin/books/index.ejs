@@ -102,8 +102,13 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
+                <% console.log('View - Books array:', books); %>
+                <% console.log('View - Books type:', typeof books); %>
+                <% console.log('View - Books length:', books ? books.length : 'undefined'); %>
                 <% if (books && Array.isArray(books) && books.length > 0) { %>
-                    <% books.forEach(book => { %>
+                    <% console.log('View - First book:', books[0]); %>
+                    <% books.forEach((book, index) => { %>
+                        <% console.log(`View - Processing book ${index}:`, book); %>
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -418,6 +423,7 @@
             <form id="editForm" action="" method="POST" enctype="multipart/form-data" class="mt-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Section 1: Basic Information -->
+                    <input type="hidden" name="id">
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <h4 class="text-md font-semibold text-gray-800 mb-4">Basic Information</h4>
                         <div class="space-y-4">
@@ -823,6 +829,26 @@
         // Initialize create toggles
         updateToggleSwitch('create_is_available', true);
         updateToggleSwitch('create_is_popular', false);
+
+        // Handle form submissions
+        const editForm = document.getElementById('editForm');
+        editForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            Swal.fire({
+                title: 'Updating...',
+                text: 'Please wait while we update the book',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            // Submit form
+            this.submit();
+        });
 
         // Handle flash messages
         const flashData = JSON.parse(document.getElementById('flash-data').textContent);

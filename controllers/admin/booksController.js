@@ -105,30 +105,29 @@ const booksController = {
             let queryParams = [];
             
             if (search) {
-                whereConditions.push('(name LIKE ? OR author LIKE ? OR publisher LIKE ? OR isbn LIKE ?)');
+                whereConditions.push('(b.name LIKE ? OR b.author LIKE ? OR b.publisher LIKE ? OR b.isbn LIKE ?)');
                 const searchTerm = `%${search}%`;
                 queryParams.push(searchTerm, searchTerm, searchTerm, searchTerm);
             }
             
             if (category) {
-                whereConditions.push('categorie_id = ?');
+                whereConditions.push('b.categorie_id = ?');
                 queryParams.push(category);
             }
             
             if (status === 'available') {
-                whereConditions.push('is_available = 1');
+                whereConditions.push('b.is_available = 1');
             } else if (status === 'unavailable') {
-                whereConditions.push('is_available = 0');
+                whereConditions.push('b.is_available = 0');
             }
-            
-            const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
-            console.log('WHERE clause:', whereClause);
-            console.log('Query parameters:', queryParams);
             
             // Get total count for pagination
             let totalCount = 0;
             try {
-                const countQuery = `SELECT COUNT(*) as count FROM books ${whereClause}`;
+                let countQuery = `SELECT COUNT(*) as count FROM books b`;
+                if (whereConditions.length > 0) {
+                    countQuery += ' WHERE ' + whereConditions.join(' AND ');
+                }
                 const [countResult] = await connection.execute(countQuery, queryParams);
                 totalCount = countResult[0].count;
                 console.log('Total books count:', totalCount);
@@ -137,14 +136,15 @@ const booksController = {
                 totalCount = 0;
             }
             
-            // Get books data
+            // Get books data with JOIN to get category names directly
             let books = [];
             try {
-                // Construct the base query
-                let booksQuery = `SELECT id, name, author, publisher, isbn, categorie_id, 
-                    is_available, is_popular, year_publisher, description, 
-                    cover, language, created_at, updated_at 
-                    FROM books`;
+                // Construct the base query with JOIN
+                let booksQuery = `
+                    SELECT b.*, c.name as category_name
+                    FROM books b
+                    LEFT JOIN categories c ON b.categorie_id = c.id
+                `;
                 
                 // Add WHERE clause if conditions exist
                 if (whereConditions.length > 0) {
@@ -152,28 +152,17 @@ const booksController = {
                 }
                 
                 // Add ORDER BY and LIMIT
-                booksQuery += ` ORDER BY created_at DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+                booksQuery += ` ORDER BY b.created_at DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
                 
-                console.log('Executing books query:', booksQuery);
-                console.log('Books query params:', queryParams);
-                
-                // Execute query with only search parameters (not limit/offset)
+                console.log('Executing query:', booksQuery);
+                console.log('With parameters:', queryParams);
                 const [booksResult] = await connection.execute(booksQuery, queryParams);
-                console.log('Raw books result:', booksResult.length);
                 
-                // Log the actual results for debugging
-                console.log('Books found:', booksResult);
-                
-                // Add category names to books
-                books = booksResult.map(book => {
-                    const category = categories.find(cat => cat.id === book.categorie_id);
-                    return {
-                        ...book,
-                        category_name: category ? category.name : null
-                    };
-                });
-                
-                console.log('Books with categories:', books.length);
+                books = booksResult || [];
+                console.log('Books found:', books.length);
+                if (books.length > 0) {
+                    console.log('First book sample:', JSON.stringify(books[0], null, 2));
+                }
             } catch (booksError) {
                 console.error('Error fetching books:', booksError);
                 console.error('Books error stack:', booksError.stack);

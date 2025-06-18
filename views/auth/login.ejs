@@ -205,19 +205,20 @@
       document
         .getElementById("loginForm")
         .addEventListener("submit", function (e) {
-          e.preventDefault();
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
 
-            if (!email || !password) {
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Mohon lengkapi semua field!',
-                    confirmButtonColor: '#3B82F6'
-                });
-            }
+          if (!email || !password) {
+              e.preventDefault();
+              Swal.fire({
+                  icon: 'warning',
+                  title: 'Peringatan',
+                  text: 'Mohon lengkapi semua field!',
+                  confirmButtonColor: '#3B82F6'
+              });
+              return;
+          }
+          // Form will submit naturally if validation passes
         });
     </script>
   </body>

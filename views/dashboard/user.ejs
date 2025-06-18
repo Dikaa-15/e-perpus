@@ -1,0 +1,289 @@
+<div class="container mx-auto px-4">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-blue-800 to-blue-600 text-white rounded-xl p-8 mb-8 shadow-lg">
+        <div class="flex items-center space-x-4">
+            <div class="bg-white/20 rounded-full px-3 py-2">
+                <i class="fas fa-user-circle text-3xl"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold">Selamat datang, <%= user.name %></h1>
+                <p class="text-blue-100">Dashboard Peminjaman Buku</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center gap-4 justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Peminjaman Aktif</p>
+                    <h3 class="text-2xl font-bold text-gray-800"><%= stats.active_loans %></h3>
+                </div>
+                <div class="bg-blue-100 rounded-full px-3 py-2">
+                    <i class="fas fa-book-reader text-blue-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center gap-4 justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Buku Dikembalikan</p>
+                    <h3 class="text-2xl font-bold text-gray-800"><%= stats.returned_books %></h3>
+                </div>
+                <div class="bg-green-100 rounded-full px-3 py-2">
+                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center gapp-4 justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Terlambat</p>
+                    <h3 class="text-2xl font-bold text-gray-800"><%= stats.overdue_books %></h3>
+                </div>
+                <div class="bg-red-100 rounded-full px-3 py-2">
+                    <i class="fas fa-exclamation-circle text-red-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center gap-4 justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Total Peminjaman</p>
+                    <h3 class="text-2xl font-bold text-gray-800"><%= stats.total_loans %></h3>
+                </div>
+                <div class="bg-purple-100 rounded-full px-3 py-2">
+                    <i class="fas fa-history text-purple-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Loans Section -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <i class="fas fa-book-reader text-blue-600 mr-2"></i>
+            Peminjaman Aktif
+        </h2>
+
+        <% if (activeLoans && activeLoans.length > 0) { %>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% activeLoans.forEach(loan => { %>
+                    <div class="bg-gray-50 rounded-lg p-4 relative">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-24 h-32 bg-gray-200 rounded-md overflow-hidden flex-shrink-0">
+                                <% if (loan.book_cover) { %>
+                                    <img src="<%= loan.book_cover %>" alt="<%= loan.book_title %>" class="w-full h-full object-cover">
+                                <% } else { %>
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <i class="fas fa-book text-gray-400 text-3xl"></i>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800 mb-1"><%= loan.book_title %></h3>
+                                <p class="text-sm text-gray-600 mb-1"><%= loan.book_author %></p>
+                                <p class="text-xs text-gray-500 mb-2"><%= loan.category_name || 'Uncategorized' %></p>
+                                
+                                <div class="text-xs space-y-1">
+                                    <p class="flex items-center">
+                                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                                        Dipinjam: <%= new Date(loan.loans_date).toLocaleDateString('id-ID') %>
+                                    </p>
+                                    <p class="flex items-center">
+                                        <i class="fas fa-clock text-blue-600 mr-2"></i>
+                                        Jatuh Tempo: <%= new Date(loan.due_date).toLocaleDateString('id-ID') %>
+                                    </p>
+                                </div>
+
+                                <% if (loan.days_remaining < 0) { %>
+                                    <div class="mt-2 text-xs text-red-600 font-semibold">
+                                        <i class="fas fa-exclamation-circle mr-1"></i>
+                                        Terlambat <%- Math.abs(loan.days_remaining) %> hari
+                                    </div>
+                                <% } else { %>
+                                    <div class="mt-2 text-xs text-blue-600 font-semibold">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        <%- loan.days_remaining %> hari tersisa
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <button onclick="returnBook(<%= loan.id %>)" 
+                                class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                            <i class="fas fa-undo-alt mr-2"></i>
+                            Kembalikan Buku
+                        </button>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-book-open text-4xl mb-4"></i>
+                <p>Tidak ada peminjaman aktif saat ini</p>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Loan History Section -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <i class="fas fa-history text-blue-600 mr-2"></i>
+            Riwayat Peminjaman
+        </h2>
+
+        <% if (loanHistory && loanHistory.length > 0) { %>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buku</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pinjam</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Kembali</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% loanHistory.forEach(loan => { %>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <% if (loan.book_cover) { %>
+                                                <img class="h-10 w-10 rounded-full object-cover" src="<%= loan.book_cover %>" alt="">
+                                            <% } else { %>
+                                                <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                                    <i class="fas fa-book text-gray-400"></i>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900"><%= loan.book_title %></div>
+                                            <div class="text-sm text-gray-500"><%= loan.book_author %></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <%= new Date(loan.loans_date).toLocaleDateString('id-ID') %>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <%= loan.return_date ? new Date(loan.return_date).toLocaleDateString('id-ID') : '-' %>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <% if (loan.status === 'returned') { %>
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                            <i class="fas fa-check-circle mr-1"></i>
+                                            Dikembalikan
+                                        </span>
+                                    <% } else if (loan.status === 'overdue') { %>
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                            <i class="fas fa-exclamation-circle mr-1"></i>
+                                            Terlambat
+                                        </span>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-history text-4xl mb-4"></i>
+                <p>Belum ada riwayat peminjaman</p>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<!-- Return Book Confirmation Modal -->
+<div id="returnModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl p-8 max-w-lg w-full mx-4">
+        <div class="text-center mb-6">
+            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-undo-alt text-2xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Konfirmasi Pengembalian</h3>
+            <p class="text-gray-600">Apakah Anda yakin ingin mengembalikan buku ini?</p>
+        </div>
+        
+        <div class="flex gap-4">
+            <button onclick="closeReturnModal()" 
+                    class="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-300">
+                <i class="fas fa-times mr-2"></i>Batal
+            </button>
+            <button onclick="confirmReturn()" 
+                    class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                <i class="fas fa-check mr-2"></i>Konfirmasi
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+let selectedLoanId = null;
+
+function returnBook(loanId) {
+    selectedLoanId = loanId;
+    document.getElementById('returnModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeReturnModal() {
+    document.getElementById('returnModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    selectedLoanId = null;
+}
+
+async function confirmReturn() {
+    if (!selectedLoanId) return;
+    
+    try {
+        const response = await fetch(`/dashboard/user/return/${selectedLoanId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showMessage('Buku berhasil dikembalikan!', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            showMessage(result.error || 'Gagal mengembalikan buku', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showMessage('Terjadi kesalahan saat mengembalikan buku', 'error');
+    } finally {
+        closeReturnModal();
+    }
+}
+
+// Show success/error messages
+function showMessage(message, type) {
+    const messageContainer = document.createElement('div');
+    messageContainer.className = `fixed top-4 right-4 z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-6 py-4 rounded-lg shadow-lg`;
+    messageContainer.innerHTML = `
+        <div class="flex items-center">
+            <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle mr-3"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(messageContainer);
+    
+    setTimeout(() => {
+        messageContainer.remove();
+    }, 5000);
+}
+</script>
