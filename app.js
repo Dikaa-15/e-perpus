@@ -1,28 +1,19 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const mysql = require('mysql2');
 const session = require('express-session');
 const flash = require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
+const methodOverride = require('method-override');
+const { initializeDatabase } = require('./config/database');
 
 const app = express();
 
-// Database connection
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
-});
-
-connection.connect((err) => {
-    if (err) {
-        console.error('Error connecting to database:', err);
-        return;
-    }
-    console.log('Connected to database successfully!');
+// Initialize database
+initializeDatabase().then(() => {
+    console.log('Database initialized successfully!');
+}).catch(error => {
+    console.error('Database initialization failed:', error);
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -63,6 +54,7 @@ app.use((req, res, next) => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // View engine setup
@@ -73,7 +65,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 const authRoutes = require('./routes/auth');
+const dashboardRoutes = require('./routes/dashboard');
+
 app.use('/auth', authRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 const loansRoutes = require('./routes/loans');
 app.use('/loans', loansRoutes);

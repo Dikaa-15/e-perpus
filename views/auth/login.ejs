@@ -5,107 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %> - E-Perpustakaan</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#FFF1CA',
+                            DEFAULT: '#FFB823',
+                            dark: '#E6A520'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-primary { background-color: #FFB823; }
+            .bg-primary-light { background-color: #FFF1CA; }
+            .bg-primary-dark { background-color: #E6A520; }
+            .text-primary { color: #FFB823; }
+            .text-primary-light { color: #FFF1CA; }
+            .text-primary-dark { color: #E6A520; }
+            .border-primary { border-color: #FFB823; }
+            .border-primary-light { border-color: #FFF1CA; }
+            .border-primary-dark { border-color: #E6A520; }
+            .hover\:bg-primary:hover { background-color: #FFB823; }
+            .hover\:bg-primary-light:hover { background-color: #FFF1CA; }
+            .hover\:bg-primary-dark:hover { background-color: #E6A520; }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
     <style>
-      .auth-bg {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
-      .glass-effect {
-        backdrop-filter: blur(10px);
-        background: rgba(255, 255, 255, 0.95);
-      }
+        .auth-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
     </style>
   </head>
   <body class="auth-bg min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md">
-      <!-- Logo/Brand -->
-      <div class="text-center mb-8">
-        <div
-          class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full shadow-lg mb-4"
-        >
-          <i class="fas fa-book text-2xl text-blue-600"></i>
-        </div>
-        <h1 class="text-3xl font-bold text-white mb-2">E-Perpustakaan</h1>
-        <p class="text-blue-100">Masuk ke akun Anda</p>
-      </div>
-
-      <!-- Login Form -->
-      <div class="glass-effect rounded-2xl shadow-2xl p-8">
-        <form action="/auth/login" method="POST" id="loginForm">
-          <!-- Email Field -->
-          <div class="mb-6">
-            <label
-              for="email"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              <i class="fas fa-envelope mr-2"></i>Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300"
-              placeholder="Masukkan email Anda"
-            />
-          </div>
-
-          <!-- Password Field -->
-          <div class="mb-6">
-            <label
-              for="password"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              <i class="fas fa-lock mr-2"></i>Password
-            </label>
-            <div class="relative">
-              <input
-                type="password"
-                id="password"
-                name="password"
-                required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300 pr-12"
-                placeholder="Masukkan password Anda"
-              />
-              <button
-                type="button"
-                onclick="togglePassword()"
-                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-                <i class="fas fa-eye" id="toggleIcon"></i>
-              </button>
+        <!-- Logo/Brand -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full shadow-lg mb-4">
+                <i class="fas fa-book text-2xl text-blue-600"></i>
             </div>
-          </div>
+            <h1 class="text-3xl font-bold text-white mb-2">E-Perpustakaan</h1>
+            <p class="text-blue-100">Masuk ke akun Anda</p>
+        </div>
 
-          <!-- Remember Me & Forgot Password -->
-          <div class="flex items-center justify-between mb-6">
-            <label class="flex items-center">
-              <input
-                type="checkbox"
-                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              />
-              <span class="ml-2 text-sm text-gray-600">Ingat saya</span>
-            </label>
-            <a
-              href="#"
-              class="text-sm text-blue-600 hover:text-blue-800 transition duration-300"
-            >
-              Lupa password?
-            </a>
-          </div>
+        <!-- Login Form -->
+        <div class="glass-effect rounded-2xl shadow-2xl p-8">
+            <form action="/auth/login" method="POST" id="loginForm">
+                <!-- Email Field -->
+                <div class="mb-6">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-2"></i>Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300"
+                        placeholder="Masukkan email Anda"
+                    >
+                </div>
 
-          <!-- Login Button -->
-          <button
-            type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg"
-          >
-            <i class="fas fa-sign-in-alt mr-2"></i>Masuk
-          </button>
-        </form>
+                <!-- Password Field -->
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-300 pr-12"
+                            placeholder="Masukkan password Anda"
+                        >
+                        <button 
+                            type="button" 
+                            onclick="togglePassword()"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        >
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between mb-6">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-sm text-gray-600">Ingat saya</span>
+                    </label>
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
+                        Lupa password?
+                    </a>
+                </div>
+
+                <!-- Login Button -->
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg"
+                >
+                    <i class="fas fa-sign-in-alt mr-2"></i>Masuk
+                </button>
+            </form>
 
         <!-- Divider -->
         <div class="my-6 flex items-center">
@@ -114,29 +131,23 @@
           <div class="flex-1 border-t border-gray-300"></div>
         </div>
 
-        <!-- Register Link -->
-        <div class="text-center">
-          <p class="text-gray-600">
-            Belum punya akun?
-            <a
-              href="/auth/register"
-              class="text-blue-600 hover:text-blue-800 font-semibold transition duration-300"
-            >
-              Daftar sekarang
-            </a>
-          </p>
+            <!-- Register Link -->
+            <div class="text-center">
+                <p class="text-gray-600">
+                    Belum punya akun? 
+                    <a href="/auth/register" class="text-blue-600 hover:text-blue-800 font-semibold transition duration-300">
+                        Daftar sekarang
+                    </a>
+                </p>
+            </div>
         </div>
-      </div>
 
-      <!-- Back to Home -->
-      <div class="text-center mt-6">
-        <a
-          href="/"
-          class="text-blue-100 hover:text-white transition duration-300"
-        >
-          <i class="fas fa-arrow-left mr-2"></i>Kembali ke Beranda
-        </a>
-      </div>
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+            <a href="/" class="text-blue-100 hover:text-white transition duration-300">
+                <i class="fas fa-arrow-left mr-2"></i>Kembali ke Beranda
+            </a>
+        </div>
     </div>
 
     <!-- Flash Messages Data -->
@@ -171,24 +182,24 @@
         const errorSpan = flashData.querySelector('[data-type="error"]');
         const successSpan = flashData.querySelector('[data-type="success"]');
 
-        if (errorSpan) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: errorSpan.getAttribute("data-message"),
-            confirmButtonColor: "#3B82F6",
-          });
-        }
+            if (errorSpan) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: errorSpan.getAttribute('data-message'),
+                    confirmButtonColor: '#3B82F6'
+                });
+            }
 
-        if (successSpan) {
-          Swal.fire({
-            icon: "success",
-            title: "Berhasil!",
-            text: successSpan.getAttribute("data-message"),
-            confirmButtonColor: "#3B82F6",
-          });
-        }
-      });
+            if (successSpan) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: successSpan.getAttribute('data-message'),
+                    confirmButtonColor: '#3B82F6'
+                });
+            }
+        });
 
       // Form validation and submission with loading animation
       document
@@ -198,47 +209,15 @@
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
 
-          if (!email || !password) {
-            Swal.fire({
-              icon: "warning",
-              title: "Peringatan",
-              text: "Mohon lengkapi semua field!",
-              confirmButtonColor: "#3B82F6",
-            });
-            return;
-          }
-
-          // Show loading toast at top-right
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            if (!email || !password) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Mohon lengkapi semua field!',
+                    confirmButtonColor: '#3B82F6'
+                });
             }
-          });
-
-          // First show loading state
-          Toast.fire({
-            title: 'Sedang masuk...',
-            timer: 1000,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading()
-            }
-          }).then(() => {
-            // Then show success message
-            return Toast.fire({
-              icon: 'success',
-              title: 'Login berhasil!',
-              timer: 1500
-            });
-          }).then(() => {
-            // Finally submit the form
-            this.submit();
-          });
         });
     </script>
   </body>

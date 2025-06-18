@@ -11,7 +11,7 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Navigation -->
-    <nav class="bg-blue-600 shadow-lg">
+    <nav class="bg-primary shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
@@ -23,9 +23,12 @@
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="text-white hover:text-blue-200 transition duration-300">Beranda</a>
-                    <a href="/books" class="text-white hover:text-blue-200 transition duration-300">Buku</a>
-                    <a href="/articles" class="text-white hover:text-blue-200 transition duration-300">Artikel</a>
+                    <a href="/" class="text-white hover:text-primary-light transition duration-300">Beranda</a>
+                    <% if (user) { %>
+                        <a href="/dashboard" class="text-white hover:text-primary-light transition duration-300">Dashboard</a>
+                    <% } %>
+                    <a href="/books" class="text-white hover:text-primary-light transition duration-300">Buku</a>
+                    <a href="/articles" class="text-white hover:text-primary-light transition duration-300">Artikel</a>
                 </div>
 
                 <!-- Auth Navigation -->
@@ -40,8 +43,8 @@
                             </form>
                         </div>
                     <% } else { %>
-                        <a href="/auth/login" class="text-white hover:text-blue-200 transition duration-300">Login</a>
-                        <a href="/auth/register" class="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg transition duration-300 font-semibold">
+                        <a href="/auth/login" class="text-white hover:text-primary-light transition duration-300">Login</a>
+                        <a href="/auth/register" class="bg-white text-primary hover:bg-primary-light px-4 py-2 rounded-lg transition duration-300 font-semibold">
                             Register
                         </a>
                     <% } %>
@@ -49,7 +52,7 @@
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" class="text-white hover:text-blue-200 focus:outline-none">
+                    <button id="mobile-menu-button" class="text-white hover:text-primary-light focus:outline-none">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
@@ -57,25 +60,28 @@
         </div>
 
         <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="md:hidden hidden bg-blue-700">
+        <div id="mobile-menu" class="md:hidden hidden" style="background-color: #E6A500;">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="/" class="block text-white hover:text-blue-200 px-3 py-2 transition duration-300">Beranda</a>
-                <a href="/books" class="block text-white hover:text-blue-200 px-3 py-2 transition duration-300">Buku</a>
-                <a href="/articles" class="block text-white hover:text-blue-200 px-3 py-2 transition duration-300">Artikel</a>
+                <a href="/" class="block text-white hover:text-primary-light px-3 py-2 transition duration-300">Beranda</a>
+                <% if (user) { %>
+                    <a href="/dashboard" class="block text-white hover:text-primary-light px-3 py-2 transition duration-300">Dashboard</a>
+                <% } %>
+                <a href="/books" class="block text-white hover:text-primary-light px-3 py-2 transition duration-300">Buku</a>
+                <a href="/articles" class="block text-white hover:text-primary-light px-3 py-2 transition duration-300">Artikel</a>
                 
                 <% if (user) { %>
-                    <div class="border-t border-blue-600 pt-2">
+                    <div class="border-t border-yellow-600 pt-2">
                         <span class="block text-white px-3 py-2">Halo, <%= user.name %></span>
                         <form action="/auth/logout" method="POST" class="px-3">
-                            <button type="submit" class="w-full text-left text-white hover:text-blue-200 py-2 transition duration-300">
+                            <button type="submit" class="w-full text-left text-white hover:text-primary-light py-2 transition duration-300">
                                 <i class="fas fa-sign-out-alt mr-2"></i>Logout
                             </button>
                         </form>
                     </div>
                 <% } else { %>
-                    <div class="border-t border-blue-600 pt-2">
-                        <a href="/auth/login" class="block text-white hover:text-blue-200 px-3 py-2 transition duration-300">Login</a>
-                        <a href="/auth/register" class="block text-white hover:text-blue-200 px-3 py-2 transition duration-300">Register</a>
+                    <div class="border-t border-yellow-600 pt-2">
+                        <a href="/auth/login" class="block text-white hover:text-primary-light px-3 py-2 transition duration-300">Login</a>
+                        <a href="/auth/register" class="block text-white hover:text-primary-light px-3 py-2 transition duration-300">Register</a>
                     </div>
                 <% } %>
             </div>

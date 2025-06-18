@@ -38,23 +38,23 @@ const authController = {
         return res.redirect("/auth/login");
       }
 
-      // Set session
-      req.session.userId = user.id;
-      req.session.user = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        roles: user.roles,
-      };
-
-      req.flash("success", "Login successful");
-      res.redirect("/");
-    } catch (error) {
-      console.error("Login error:", error);
-      req.flash("error", "An error occurred during login");
-      res.redirect("/auth/login");
-    }
-  },
+            // Set session
+            req.session.userId = user.id;
+            req.session.user = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                roles: user.roles
+            };
+            
+            req.flash('success', 'Login successful');
+            res.redirect('/');
+        } catch (error) {
+            console.error('Login error:', error);
+            req.flash('error', 'An error occurred during login');
+            res.redirect('/auth/login');
+        }
+    },
 
   // Handle registration
   register: async (req, res) => {
