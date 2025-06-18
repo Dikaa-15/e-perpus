@@ -35,6 +35,35 @@ async function createDatabase() {
     }
 }
 
+// Function to create tables
+async function createTables() {
+    const connection = await pool.getConnection();
+    try {
+        console.log('Creating tables...');
+        
+        // Create tables in correct order (users and categories first, then others)
+        const orderedTables = [
+            schema.createTables[5], // users table
+            schema.createTables[2], // categories table
+            schema.createTables[1], // books table
+            schema.createTables[0], // articles table
+            schema.createTables[3], // favorits table
+            schema.createTables[4]  // loans table
+        ];
+        
+        for (const query of orderedTables) {
+            try {
+                await connection.execute(query);
+            } catch (error) {
+                console.error('Error creating table:', error.message);
+            }
+        }
+        console.log('Tables creation completed');
+    } finally {
+        connection.release();
+    }
+}
+
 // Function to update tables
 async function updateTables() {
     const connection = await pool.getConnection();
@@ -45,7 +74,7 @@ async function updateTables() {
             try {
                 await connection.execute(query);
             } catch (error) {
-                if (!error.message.includes('Duplicate column name')) {
+                if (!error.message.includes('Duplicate column name') && !error.message.includes('already exists')) {
                     console.error('Error executing query:', query);
                     console.error('Error message:', error.message);
                 }
@@ -59,7 +88,7 @@ async function updateTables() {
             try {
                 await connection.execute(query);
             } catch (error) {
-                if (!error.message.includes('Duplicate column name')) {
+                if (!error.message.includes('Duplicate column name') && !error.message.includes('already exists')) {
                     console.error('Error executing query:', query);
                     console.error('Error message:', error.message);
                 }
@@ -73,7 +102,7 @@ async function updateTables() {
             try {
                 await connection.execute(query);
             } catch (error) {
-                if (!error.message.includes('Duplicate column name')) {
+                if (!error.message.includes('Duplicate column name') && !error.message.includes('already exists')) {
                     console.error('Error executing query:', query);
                     console.error('Error message:', error.message);
                 }
@@ -87,7 +116,7 @@ async function updateTables() {
             try {
                 await connection.execute(query);
             } catch (error) {
-                if (!error.message.includes('Duplicate column name')) {
+                if (!error.message.includes('Duplicate column name') && !error.message.includes('already exists')) {
                     console.error('Error executing query:', query);
                     console.error('Error message:', error.message);
                 }
@@ -101,7 +130,7 @@ async function updateTables() {
             try {
                 await connection.execute(query);
             } catch (error) {
-                if (!error.message.includes('Duplicate column name')) {
+                if (!error.message.includes('Duplicate column name') && !error.message.includes('already exists')) {
                     console.error('Error executing query:', query);
                     console.error('Error message:', error.message);
                 }
@@ -115,10 +144,66 @@ async function updateTables() {
     }
 }
 
+// Function to seed initial data
+async function seedInitialData() {
+    const connection = await pool.getConnection();
+    try {
+        // Check if categories exist
+        const [categories] = await connection.execute('SELECT COUNT(*) as count FROM categories');
+        
+        if (categories[0].count === 0) {
+            console.log('Seeding initial categories...');
+            const initialCategories = [
+                ['Fiction', 'fiction'],
+                ['Non-Fiction', 'non-fiction'],
+                ['Science', 'science'],
+                ['Technology', 'technology'],
+                ['History', 'history'],
+                ['Biography', 'biography']
+            ];
+            
+            for (const [name, slug] of initialCategories) {
+                await connection.execute(
+                    'INSERT INTO categories (name, slug, created_at) VALUES (?, ?, NOW())',
+                    [name, slug]
+                );
+            }
+            console.log('Initial categories seeded successfully');
+        }
+        
+        // Check if admin user exists
+        const [users] = await connection.execute('SELECT COUNT(*) as count FROM users WHERE roles = "admin"');
+        
+        if (users[0].count === 0) {
+            console.log('Creating default admin user...');
+            const bcrypt = require('bcrypt');
+            const hashedPassword = await bcrypt.hash('admin123', 10);
+            
+            await connection.execute(
+                'INSERT INTO users (name, email, password, roles, is_active, created_at) VALUES (?, ?, ?, ?, ?, NOW())',
+                ['Administrator', 'admin@example.com', hashedPassword, 'admin', 1]
+            );
+            console.log('Default admin user created (email: admin@example.com, password: admin123)');
+        }
+        
+    } catch (error) {
+        console.error('Error seeding initial data:', error);
+    } finally {
+        connection.release();
+    }
+}
+
 // Initialize database
 async function initializeDatabase() {
-    await createDatabase();
-    await updateTables();
+    try {
+        await createDatabase();
+        await createTables();
+        await updateTables();
+        await seedInitialData();
+        console.log('Database initialization completed successfully!');
+    } catch (error) {
+        console.error('Database initialization failed:', error);
+    }
 }
 
 module.exports = {
