@@ -117,6 +117,16 @@ const userDashboardController = {
                 });
             }
             
+            // Get loan details to check if it's late
+            const [loanDetails] = await connection.execute(
+                'SELECT due_date FROM loans WHERE id = ?',
+                [loanId]
+            );
+
+            const dueDate = new Date(loanDetails[0].due_date);
+            const currentDate = new Date();
+            const isLate = currentDate > dueDate;
+
             // Update loan status to returned
             await connection.execute(
                 'UPDATE loans SET status = "returned", return_date = CURDATE() WHERE id = ?',
@@ -124,10 +134,18 @@ const userDashboardController = {
             );
             
             connection.release();
+
+            // Set appropriate flash message
+            if (isLate) {
+                req.flash('lateReturn', true);
+            } else {
+                req.flash('successReturn', true);
+            }
             
             res.json({
                 success: true,
-                message: 'Book returned successfully'
+                message: 'Book returned successfully',
+                isLate: isLate
             });
             
         } catch (error) {

@@ -37,7 +37,7 @@
 </div>
 
 <!-- Quick Stats with Book-themed Design -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 pt-14 pb-16">
     <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg p-8 border-l-8 border-blue-600 transition-all duration-300">
         <div class="flex items-center">
             <div class="bg-blue-100 w-20 h-20 rounded-lg flex items-center justify-center shadow-inner">
@@ -64,8 +64,8 @@
 </div>
 
 <!-- Category Navigation Tabs -->
-<div class="mb-8">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+<div class="mb-12 text-center mx-auto">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center justify-center">
         <span class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
             <i class="fas fa-th-large text-blue-600"></i>
         </span>
@@ -104,15 +104,6 @@
 
 <!-- Featured Books Section -->
 <div class="mb-16">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-        <h2 class="text-3xl font-bold text-gray-800 flex items-center">
-            <span class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
-                <i class="fas fa-star text-blue-600"></i>
-            </span>
-            Koleksi Buku
-        </h2>
-    </div>
-    
     <div id="booksContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <% if (featuredBooks && featuredBooks.length > 0) { %>
             <% featuredBooks.forEach(book => { %>

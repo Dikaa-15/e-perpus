@@ -52,6 +52,8 @@ app.use(flash());
 // Global variables
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
+  res.locals.successReturn = req.flash('successReturn');
+  res.locals.lateReturn = req.flash('lateReturn');
   next();
 });
 
