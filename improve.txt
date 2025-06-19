@@ -1,15 +1,8 @@
 -- HERES SOME IMPROVE FITUR --
-1. button edit belum bisa
-2. pengecekan jika ukuran file > 5mb, maka beri pesan melalui sweetalet
 
 
 -- FITUR YANG HARUS DIBUAT --
  
 
 -- PERBAIKAN TAMPILAN --
-1. FORM CREATE/EDIT 
 
-26.15
--- List Fitur yang belum bisa --
-1. Modal Form create & edit article tidak muncul
-2. fitur delete article belum bisa

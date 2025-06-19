@@ -8,6 +8,7 @@ const articlesController = require('../controllers/admin/articlesController');
 const favoritesController = require('../controllers/admin/favoritesController');
 const usersApiController = require('../controllers/admin/api/usersController');
 const booksApiController = require('../controllers/admin/api/booksController');
+const loansController = require('../controllers/admin/loansController');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
 router.get('/', isAdmin, dashboardController.index);
@@ -27,6 +28,15 @@ router.delete('/books/:id', isAdmin, booksController.delete);
 // Add POST routes for update and delete as fallback
 router.post('/books/:id/update', isAdmin, booksController.uploadMiddleware, booksController.update);
 router.post('/books/:id/delete', isAdmin, booksController.delete);
+
+// Loans routes - Admin only
+router.get('/loans', isAdmin, loansController.index);
+router.post('/loans', isAdmin, loansController.create);
+router.put('/loans/:id', isAdmin, loansController.update);
+router.delete('/loans/:id', isAdmin, loansController.delete);
+// Add POST routes for update and delete as fallback
+router.post('/loans/:id/update', isAdmin, loansController.update);
+router.post('/loans/:id/delete', isAdmin, loansController.delete);
 
 // Categories routes - Admin only
 router.get('/categories', isAdmin, categoriesController.index);
