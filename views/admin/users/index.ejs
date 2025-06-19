@@ -50,6 +50,7 @@
             <button 
                 id="clearFilters" 
                 class="w-full bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+                style="<% if (!search && !status) { %>display: none;<% } %>"
             >
                 <i class="fas fa-times mr-1"></i>
                 Clear
