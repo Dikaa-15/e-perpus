@@ -45,14 +45,14 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <!-- Filter by Date Peminjaman Card -->
         <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex flex-col">
-            <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide mb-2">Filter by Loans Date - Jumlah Pengguna</p>
+            <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide mb-2">Filter by Loans Date</p>
             <input type="date" name="filterLoansDate" id="filterLoansDate" class="border border-gray-300 rounded-md p-2 mb-4" value="<%= typeof filterLoansDate !== 'undefined' ? filterLoansDate : '' %>" />
             <!-- Removed filter button for auto update -->
         </div>
 
         <!-- Filter by Date Peminjaman Card -->
         <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex flex-col">
-            <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide mb-2">Filter by Due Date - Jumlah Buku & Artikel</p>
+            <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide mb-2">Filter by Due Date</p>
             <input type="date" name="filterDueDate" id="filterDueDate" class="border border-gray-300 rounded-md p-2 mb-4" value="<%= typeof filterDueDate !== 'undefined' ? filterDueDate : '' %>" />
             <!-- Removed filter button for auto update -->
         </div>
@@ -72,6 +72,7 @@
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Buku</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Pinjam</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Jatuh Tempo</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Kembali</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
                         </tr>
                     </thead>
@@ -87,6 +88,9 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                         <%= new Date(loan.due_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                        <%= new Date(loan.return_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <% if (loan.status === 'borrowed') { %>
                                             <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
@@ -94,7 +98,7 @@
                                             </span>
                                         <% } else if (loan.status === 'returned') { %>
                                             <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                                                Dikembalikan
+                                                Returned
                                             </span>
                                         <% } else { %>
                                             <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-red-100 text-red-800">
