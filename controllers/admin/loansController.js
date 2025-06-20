@@ -1,4 +1,5 @@
 const { pool } = require('../../config/database');
+const ExcelJS = require('exceljs');
 
 const ITEMS_PER_PAGE = 10;
 
@@ -189,6 +190,98 @@ exports.index = async (req, res) => {
             connection.release();
         }
         console.log('=== Loans Controller Index Completed ===');
+    }
+};
+
+exports.exportExcel = async (req, res) => {
+    let connection;
+    try {
+        connection = await pool.getConnection();
+
+        // Get query parameters for filtering
+        const search = req.query.search ? req.query.search.trim() : '';
+        const status = req.query.status || '';
+        const startDate = req.query.startDate || '';
+        const endDate = req.query.endDate || '';
+
+        // Build WHERE conditions
+        let whereConditions = [];
+        let queryParams = [];
+
+        if (search) {
+            whereConditions.push('(u.name LIKE ? OR b.name LIKE ?)');
+            const searchTerm = `%${search}%`;
+            queryParams.push(searchTerm, searchTerm);
+        }
+
+        if (status) {
+            whereConditions.push('l.status = ?');
+            queryParams.push(status);
+        }
+
+        if (startDate) {
+            whereConditions.push('l.loans_date >= ?');
+            queryParams.push(startDate);
+        }
+
+        if (endDate) {
+            whereConditions.push('l.loans_date <= ?');
+            queryParams.push(endDate);
+        }
+
+        const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
+
+        // Fetch all loans data without pagination
+        const loansQuery = `
+            SELECT l.*, u.name as user_name, b.name as book_name
+            FROM loans l
+            LEFT JOIN users u ON l.user_id = u.id
+            LEFT JOIN books b ON l.book_id = b.id
+            ${whereClause}
+            ORDER BY l.created_at DESC
+        `;
+        const [loans] = await connection.execute(loansQuery, queryParams);
+
+        // Create a new workbook and worksheet
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Loans');
+
+        // Define columns
+        worksheet.columns = [
+            { header: 'User', key: 'user_name', width: 30 },
+            { header: 'Book', key: 'book_name', width: 30 },
+            { header: 'Loan Date', key: 'loans_date', width: 15 },
+            { header: 'Return Date', key: 'return_date', width: 15 },
+            { header: 'Due Date', key: 'due_date', width: 15 },
+            { header: 'Status', key: 'status', width: 15 }
+        ];
+
+        // Add rows
+        loans.forEach(loan => {
+            worksheet.addRow({
+                user_name: loan.user_name || '-',
+                book_name: loan.book_name || '-',
+                loans_date: loan.loans_date ? new Date(loan.loans_date).toLocaleDateString('id-ID') : '-',
+                return_date: loan.return_date ? new Date(loan.return_date).toLocaleDateString('id-ID') : '-',
+                due_date: loan.due_date ? new Date(loan.due_date).toLocaleDateString('id-ID') : '-',
+                status: loan.status ? loan.status.charAt(0).toUpperCase() + loan.status.slice(1) : '-'
+            });
+        });
+
+        // Set response headers
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=loans.xlsx');
+
+        // Write to buffer and send
+        await workbook.xlsx.write(res);
+        res.end();
+
+    } catch (error) {
+        console.error('Error exporting loans to Excel:', error);
+        req.flash('error', 'Failed to export loans to Excel.');
+        res.redirect('/dashboard/loans');
+    } finally {
+        if (connection) connection.release();
     }
 };
 

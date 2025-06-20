@@ -1,4 +1,4 @@
-<!-- Page Header -->
+ <!-- Page Header -->
 <div class="flex justify-between items-center mb-6">
     <div>
         <h2 class="text-2xl font-bold text-gray-900">Books Management</h2>
@@ -144,6 +144,23 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex space-x-2">
                                     <button 
+                                        class="show-btn text-gray-600 hover:text-gray-800" 
+                                        title="View"
+                                        data-id="<%- book.id %>"
+                                        data-name="<%- book.name %>"
+                                        data-author="<%- book.author || '' %>"
+                                        data-publisher="<%- book.publisher || '' %>"
+                                        data-isbn="<%- book.isbn || '' %>"
+                                        data-category_name="<%- book.category_name || '' %>"
+                                        data-year_publisher="<%- book.year_publisher || '' %>"
+                                        data-description="<%- book.description || '' %>"
+                                        data-cover="<%- book.cover || '' %>"
+                                        data-language="<%- book.language || '' %>"
+                                        data-is_available="<%- book.is_available %>"
+                                        data-is_popular="<%- book.is_popular %>">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button 
                                         class="edit-btn text-primary hover:text-primary-dark" 
                                         title="Edit"
                                         data-id="<%- book.id %>"
@@ -258,57 +275,57 @@
 </div>
 
 <!-- Create Book Modal -->
-<div id="createModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-10 mx-auto p-6 border w-full max-w-4xl shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Create New Book</h3>
-            <form id="createForm" action="/dashboard/books" method="POST" enctype="multipart/form-data" class="mt-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div id="createModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Create New Book</h3>
+            <form id="createForm" action="/dashboard/books" method="POST" enctype="multipart/form-data" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Section 1: Basic Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Basic Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Basic Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="name">
                                     Title *
                                 </label>
                                 <input type="text" name="name" id="name" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="author">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="author">
                                     Author
                                 </label>
                                 <input type="text" name="author" id="author"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="publisher">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="publisher">
                                     Publisher
                                 </label>
                                 <input type="text" name="publisher" id="publisher"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="isbn">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="isbn">
                                     ISBN
                                 </label>
                                 <input type="text" name="isbn" id="isbn"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                         </div>
                     </div>
 
                     <!-- Section 2: Additional Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Additional Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Additional Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="categorie_id">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="categorie_id">
                                     Category
                                 </label>
                                 <select name="categorie_id" id="categorie_id"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="">Select Category</option>
                                     <% categories.forEach(category => { %>
                                         <option value="<%= category.id %>"><%= category.name %></option>
@@ -316,26 +333,26 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="year_publisher">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="year_publisher">
                                     Year Published
                                 </label>
                                 <input type="number" name="year_publisher" id="year_publisher"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="cover">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="cover">
                                     Cover Image
                                 </label>
                                 <input type="file" name="cover" id="cover" accept="image/*"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                 <p class="text-xs text-gray-500 mt-1">Supported formats: JPG, JPEG, PNG, GIF (Max 5MB)</p>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="language">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="language">
                                     Language
                                 </label>
                                 <select name="language" id="language"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="">Select Language</option>
                                     <option value="Indonesian">Indonesian</option>
                                     <option value="English">English</option>
@@ -350,42 +367,42 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="description">
                                     Description
                                 </label>
                                 <textarea name="description" id="description" rows="3"
-                                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                                          class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition"></textarea>
                             </div>
                             <div class="flex space-x-4">
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                                    <label class="block text-gray-800 text-sm font-semibold mb-2">
                                         Status
                                     </label>
                                     <div class="flex items-center">
                                         <label class="inline-flex items-center cursor-pointer toggle-switch">
                                             <input type="checkbox" name="is_available" id="create_is_available" checked class="sr-only">
                                             <div class="relative">
-                                                <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                                                <div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors duration-300 ease-in-out"></div>
+                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transition-transform duration-300 ease-in-out"></div>
                                             </div>
-                                            <div class="ml-3 text-gray-700 font-medium">
+                                            <div class="ml-3 text-gray-800 font-semibold">
                                                 <span class="status-text">Available</span>
                                             </div>
                                         </label>
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                                    <label class="block text-gray-800 text-sm font-semibold mb-2">
                                         Popular
                                     </label>
                                     <div class="flex items-center">
                                         <label class="inline-flex items-center cursor-pointer toggle-switch">
                                             <input type="checkbox" name="is_popular" id="create_is_popular" class="sr-only">
                                             <div class="relative">
-                                                <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                                                <div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors duration-300 ease-in-out"></div>
+                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transition-transform duration-300 ease-in-out"></div>
                                             </div>
-                                            <div class="ml-3 text-gray-700 font-medium">
+                                            <div class="ml-3 text-gray-800 font-semibold">
                                                 <span class="popular-text">Not Popular</span>
                                             </div>
                                         </label>
@@ -396,13 +413,13 @@
                     </div>
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end mt-8 space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeCreateModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
                         Create Book
                     </button>
                 </div>
@@ -412,57 +429,57 @@
 </div>
 
 <!-- Edit Book Modal -->
-<div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-10 mx-auto p-6 border w-full max-w-4xl shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Edit Book</h3>
-            <form id="editForm" action="" method="POST" enctype="multipart/form-data" class="mt-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Edit Book</h3>
+            <form id="editForm" action="" method="POST" enctype="multipart/form-data" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Section 1: Basic Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Basic Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Basic Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_name">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_name">
                                     Title *
                                 </label>
                                 <input type="text" name="name" id="edit_name" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_author">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_author">
                                     Author
                                 </label>
                                 <input type="text" name="author" id="edit_author"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_publisher">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_publisher">
                                     Publisher
                                 </label>
                                 <input type="text" name="publisher" id="edit_publisher"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_isbn">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_isbn">
                                     ISBN
                                 </label>
                                 <input type="text" name="isbn" id="edit_isbn"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                         </div>
                     </div>
 
                     <!-- Section 2: Additional Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Additional Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Additional Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_categorie_id">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_categorie_id">
                                     Category
                                 </label>
                                 <select name="categorie_id" id="edit_categorie_id"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="">Select Category</option>
                                     <% categories.forEach(category => { %>
                                         <option value="<%= category.id %>"><%= category.name %></option>
@@ -470,18 +487,18 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_year_publisher">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_year_publisher">
                                     Year Published
                                 </label>
                                 <input type="number" name="year_publisher" id="edit_year_publisher"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_cover">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_cover">
                                     Cover Image
                                 </label>
                                 <input type="file" name="cover" id="edit_cover" accept="image/*"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                 <p class="text-xs text-gray-500 mt-1">Supported formats: JPG, JPEG, PNG, GIF (Max 5MB). Leave empty to keep current cover.</p>
                                 <div id="current_cover_display" class="mt-2 hidden">
                                     <p class="text-sm text-gray-600">Current cover:</p>
@@ -489,11 +506,11 @@
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_language">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_language">
                                     Language
                                 </label>
                                 <select name="language" id="edit_language"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="">Select Language</option>
                                     <option value="Indonesian">Indonesian</option>
                                     <option value="English">English</option>
@@ -508,42 +525,42 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_description">
+                                <label class="block text-gray-800 text-sm font-semibold mb-2" for="edit_description">
                                     Description
                                 </label>
                                 <textarea name="description" id="edit_description" rows="3"
-                                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                                          class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition"></textarea>
                             </div>
                             <div class="flex space-x-4">
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                                    <label class="block text-gray-800 text-sm font-semibold mb-2">
                                         Status
                                     </label>
                                     <div class="flex items-center">
                                         <label class="inline-flex items-center cursor-pointer toggle-switch">
                                             <input type="checkbox" name="is_available" id="edit_is_available" class="sr-only">
                                             <div class="relative">
-                                                <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                                                <div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors duration-300 ease-in-out"></div>
+                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transition-transform duration-300 ease-in-out"></div>
                                             </div>
-                                            <div class="ml-3 text-gray-700 font-medium">
+                                            <div class="ml-3 text-gray-800 font-semibold">
                                                 <span class="status-text">Available</span>
                                             </div>
                                         </label>
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                                    <label class="block text-gray-800 text-sm font-semibold mb-2">
                                         Popular
                                     </label>
                                     <div class="flex items-center">
                                         <label class="inline-flex items-center cursor-pointer toggle-switch">
                                             <input type="checkbox" name="is_popular" id="edit_is_popular" class="sr-only">
                                             <div class="relative">
-                                                <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                                                <div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors duration-300 ease-in-out"></div>
+                                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transition-transform duration-300 ease-in-out"></div>
                                             </div>
-                                            <div class="ml-3 text-gray-700 font-medium">
+                                            <div class="ml-3 text-gray-800 font-semibold">
                                                 <span class="popular-text">Not Popular</span>
                                             </div>
                                         </label>
@@ -554,13 +571,13 @@
                     </div>
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end mt-8 space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeEditModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
                         Update Book
                     </button>
                 </div>

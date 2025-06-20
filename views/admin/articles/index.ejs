@@ -255,128 +255,124 @@
 </style>
 
 <!-- Create Article Modal -->
-<div id="createArticleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg shadow-lg w-4/5 max-w-5xl p-6 relative max-h-[90vh] overflow-y-auto">
-        <button onclick="closeCreateModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
-            <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-xl font-semibold mb-4">Create New Article</h3>
-        <form id="createArticleForm" action="/dashboard/articles" method="POST" enctype="multipart/form-data">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Section 1: Basic Information Left -->
-                <div class="bg-gray-50 p-4 rounded-lg space-y-4 col-span-1">
-                    <div>
-                        <label for="title" class="block text-gray-700 font-medium mb-1">Title</label>
-                        <input type="text" id="title" name="title" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                    </div>
-                    <div>
-                        <label for="category" class="block text-gray-700 font-medium mb-1">Category</label>
-                        <select id="category" name="categorie_id" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                            <option value="">Select Category</option>
-                            <% categories.forEach(cat => { %>
-                                <option value="<%= cat.id %>"><%= cat.name %></option>
-                            <% }); %>
-                        </select>
-                    </div>
-                </div>
-                <!-- Section 2: Basic Information Right -->
-                <div class="bg-gray-50 p-4 rounded-lg space-y-4 col-span-1">
-                    <div>
-                        <label for="cover" class="block text-gray-700 font-medium mb-1">Cover Image</label>
-                        <input type="file" id="cover" name="cover" accept="image/*" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <p class="text-xs text-gray-500 mt-1">Supported formats: JPG, JPEG, PNG, GIF (Max 5MB)</p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Publish Status</label>
-                        <div class="flex items-center">
-                            <label class="inline-flex items-center cursor-pointer toggle-switch">
-                                <input type="checkbox" id="is_published" name="is_published" class="sr-only">
-                                <div class="relative">
-                                    <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                    <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
-                                </div>
-                                <div class="ml-3 text-gray-700 font-medium">
-                                    <span class="status-text">Draft</span>
-                                </div>
-                            </label>
+<div id="createArticleModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh] relative">
+        <h3 class="text-2xl font-semibold text-gray-900 mb-8">Create New Article</h3>
+        <form id="createArticleForm" action="/dashboard/articles" method="POST" enctype="multipart/form-data" class="space-y-8">
+            <div>
+                <label for="title" class="block text-gray-800 text-sm font-semibold mb-2">Title <span class="text-red-500">*</span></label>
+                <input type="text" id="title" name="title" required
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+            </div>
+            <div>
+                <label for="category" class="block text-gray-800 text-sm font-semibold mb-2">Category <span class="text-red-500">*</span></label>
+                <select id="category" name="categorie_id" required
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                    <option value="">Select Category</option>
+                    <% categories.forEach(cat => { %>
+                        <option value="<%= cat.id %>"><%= cat.name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div>
+                <label for="cover" class="block text-gray-800 text-sm font-semibold mb-2">Cover Image</label>
+                <input type="file" id="cover" name="cover" accept="image/*"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                <p class="text-xs text-gray-500 mt-1">Supported formats: JPG, JPEG, PNG, GIF (Max 5MB)</p>
+            </div>
+            <div>
+                <label class="block text-gray-800 text-sm font-semibold mb-2">Publish Status</label>
+                <div class="flex items-center">
+                    <label class="inline-flex items-center cursor-pointer toggle-switch">
+                        <input type="checkbox" id="is_published" name="is_published" class="sr-only">
+                        <div class="relative">
+                            <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
                         </div>
-                    </div>
-                </div>
-                <!-- Section 3: Content (full width below) -->
-                <div class="md:col-span-3 bg-gray-50 p-4 rounded-lg">
-                    <h4 class="text-md font-semibold text-gray-800 mb-4">Content</h4>
-                    <textarea id="content" name="content" rows="10" class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
+                        <div class="ml-3 text-gray-700 font-medium">
+                            <span class="status-text">Draft</span>
+                        </div>
+                    </label>
                 </div>
             </div>
-            <div class="flex justify-end mt-4">
-                <button type="button" onclick="closeCreateModal()" class="mr-2 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark">Create</button>
+            <div>
+                <label for="content" class="block text-gray-800 text-sm font-semibold mb-2">Content <span class="text-red-500">*</span></label>
+                <textarea id="content" name="content" rows="10"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition"></textarea>
+            </div>
+            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                <button type="button" onclick="closeCreateModal()"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+                    Create
+                </button>
             </div>
         </form>
     </div>
 </div>
 
 <!-- Edit Article Modal -->
-<div id="editArticleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg shadow-lg w-4/5 max-w-5xl p-6 relative max-h-[90vh] overflow-y-auto">
-        <button onclick="closeEditModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
-            <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-xl font-semibold mb-4">Edit Article</h3>
-        <form id="editArticleForm" method="POST" enctype="multipart/form-data">
+<div id="editArticleModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh] relative">
+        <h3 class="text-2xl font-semibold text-gray-900 mb-8">Edit Article</h3>
+        <form id="editArticleForm" method="POST" enctype="multipart/form-data" class="space-y-8">
             <input type="hidden" id="editArticleId" name="id">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Section 1: Basic Information Left -->
-                <div class="bg-gray-50 p-4 rounded-lg space-y-4 col-span-1">
-                    <div>
-                        <label for="editTitle" class="block text-gray-700 font-medium mb-1">Title</label>
-                        <input type="text" id="editTitle" name="title" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                    </div>
-                    <div>
-                        <label for="editCategory" class="block text-gray-700 font-medium mb-1">Category</label>
-                        <select id="editCategory" name="categorie_id" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                            <option value="">Select Category</option>
-                            <% categories.forEach(cat => { %>
-                                <option value="<%= cat.id %>"><%= cat.name %></option>
-                            <% }); %>
-                        </select>
-                    </div>
-                </div>
-                <!-- Section 2: Basic Information Right -->
-                <div class="bg-gray-50 p-4 rounded-lg space-y-4 col-span-1">
-                    <div>
-                        <label for="editCover" class="block text-gray-700 font-medium mb-1">Cover Image</label>
-                        <input type="file" id="editCover" name="cover" accept="image/*" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <p class="text-xs text-gray-500 mt-1">Supported formats: JPG, JPEG, PNG, GIF (Max 5MB)</p>
-                        <div id="currentCoverContainer" class="mt-2">
-                            <img id="currentCoverImage" src="" alt="Current Cover" class="h-20 w-auto rounded">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Publish Status</label>
-                        <div class="flex items-center">
-                            <label class="inline-flex items-center cursor-pointer toggle-switch">
-                                <input type="checkbox" id="editIsPublished" name="is_published" class="sr-only">
-                                <div class="relative">
-                                    <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                    <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
-                                </div>
-                                <div class="ml-3 text-gray-700 font-medium">
-                                    <span class="status-text" id="editStatusText">Draft</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <!-- Section 3: Content (full width below) -->
-                <div class="md:col-span-3 bg-gray-50 p-4 rounded-lg">
-                    <h4 class="text-md font-semibold text-gray-800 mb-4">Content</h4>
-<textarea id="editContent" name="content" rows="10" class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
+            <div>
+                <label for="editTitle" class="block text-gray-800 text-sm font-semibold mb-2">Title <span class="text-red-500">*</span></label>
+                <input type="text" id="editTitle" name="title" required
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+            </div>
+            <div>
+                <label for="editCategory" class="block text-gray-800 text-sm font-semibold mb-2">Category <span class="text-red-500">*</span></label>
+                <select id="editCategory" name="categorie_id" required
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                    <option value="">Select Category</option>
+                    <% categories.forEach(cat => { %>
+                        <option value="<%= cat.id %>"><%= cat.name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div>
+                <label for="editCover" class="block text-gray-800 text-sm font-semibold mb-2">Cover Image</label>
+                <input type="file" id="editCover" name="cover" accept="image/*"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                <p class="text-xs text-gray-500 mt-1">Supported formats: JPG, JPEG, PNG, GIF (Max 5MB)</p>
+                <div id="currentCoverContainer" class="mt-2">
+                    <img id="currentCoverImage" src="" alt="Current Cover" class="h-20 w-auto rounded">
                 </div>
             </div>
-            <div class="flex justify-end mt-4">
-                <button type="button" onclick="closeEditModal()" class="mr-2 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark">Save</button>
+            <div>
+                <label class="block text-gray-800 text-sm font-semibold mb-2">Publish Status</label>
+                <div class="flex items-center">
+                    <label class="inline-flex items-center cursor-pointer toggle-switch">
+                        <input type="checkbox" id="editIsPublished" name="is_published" class="sr-only">
+                        <div class="relative">
+                            <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                        </div>
+                        <div class="ml-3 text-gray-700 font-medium">
+                            <span class="status-text" id="editStatusText">Draft</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label for="editContent" class="block text-gray-800 text-sm font-semibold mb-2">Content <span class="text-red-500">*</span></label>
+                <textarea id="editContent" name="content" rows="10"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition"></textarea>
+            </div>
+            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                <button type="button" onclick="closeEditModal()"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+                    Save
+                </button>
             </div>
         </form>
     </div>

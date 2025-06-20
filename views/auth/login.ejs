@@ -198,7 +198,7 @@
             }
         });
 
-        // Form validation
+        // Form validation and show loading flash message
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -210,6 +210,30 @@
                     title: 'Peringatan',
                     text: 'Mohon lengkapi semua field!',
                     confirmButtonColor: '#FFB823'
+                });
+            } else {
+                // Show loading toast in top right corner with custom HTML and smooth loading line
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    },
+                    html: `
+                        <div style="font-weight: 600; font-size: 1rem; margin-bottom: 6px;">proses login</div>
+                        <div style="height: 4px; background: linear-gradient(90deg, #FFB823 0%, #E6A520 100%); background-size: 200% 100%; animation: loadingLine 3s ease-in-out forwards;"></div>
+                        <style>
+                            @keyframes loadingLine {
+                                0% { background-position: 0% 0; }
+                                100% { background-position: 100% 0; }
+                            }
+                        </style>
+                    `
                 });
             }
         });

@@ -56,12 +56,8 @@ app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
 
 // Basic route
-app.get('/', (req, res) => {
-    res.render('index', { 
-        title: 'E-Perpustakaan',
-        user: req.session.user || null
-    });
-});
+const homeController = require('./controllers/homeController');
+app.get('/', homeController.welcome);
 
 // Error handler
 app.use((err, req, res, next) => {

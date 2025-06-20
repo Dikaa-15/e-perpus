@@ -1,8 +1,15 @@
 -- HERES SOME IMPROVE FITUR --
+1. ketika sedang filter by date di didashboard data return_date tidak tampil
 
 
 -- FITUR YANG HARUS DIBUAT --
- 
+1. tampilkan peminjam aktif didashboard, mengambil data dari user yang minjem paling sering
 
 -- PERBAIKAN TAMPILAN --
+1. modal CRUD
 
+
+misal ada 2 file yang diubah/tambahin baris code misal be & fe, kita save juga? walaupun kita belum tahu apakah fungsi itu berhasil
+
+cara prompt jika ingin tampilan yang mirip dengan link preferensi design
+a

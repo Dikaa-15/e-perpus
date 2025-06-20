@@ -31,6 +31,7 @@ router.post('/books/:id/delete', isAdmin, booksController.delete);
 
 // Loans routes - Admin only
 router.get('/loans', isAdmin, loansController.index);
+router.get('/loans/export', isAdmin, loansController.exportExcel);
 router.post('/loans', isAdmin, loansController.create);
 router.put('/loans/:id', isAdmin, loansController.update);
 router.delete('/loans/:id', isAdmin, loansController.delete);

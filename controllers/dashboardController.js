@@ -8,7 +8,7 @@ const dashboardController = {
             const { filterLoansDate, filterDueDate } = req.query;
 
             // Get counts for dashboard widgets
-            let userCount, bookCount, articleCount;
+            let userCount, bookCount, articleCount, activeBorrowersCount;
 
             if (filterLoansDate) {
                 // Count distinct users who have loans on the filterLoansDate
@@ -32,6 +32,17 @@ const dashboardController = {
                 [bookCount] = await connection.execute('SELECT COUNT(*) as count FROM books');
                 [articleCount] = await connection.execute('SELECT COUNT(*) as count FROM articles');
             }
+
+            // Count active borrowers - users who have borrowed books frequently (e.g., top 10 users by loan count)
+            const [activeBorrowersResult] = await connection.execute(
+                `SELECT COUNT(DISTINCT user_id) as count FROM (
+                    SELECT user_id, COUNT(*) as loan_count
+                    FROM loans
+                    GROUP BY user_id
+                    HAVING loan_count >= 3
+                ) as frequent_borrowers`
+            );
+            activeBorrowersCount = activeBorrowersResult[0].count;
 
             // Build latest loans query with optional filters
             let latestLoansQuery = `
@@ -75,7 +86,8 @@ const dashboardController = {
                     stats: {
                         users: userCount[0].count,
                         books: bookCount[0].count,
-                        articles: articleCount[0].count
+                        articles: articleCount[0].count,
+                        activeBorrowers: activeBorrowersCount
                     },
                     latestLoans: latestLoans
                 });
@@ -90,7 +102,8 @@ const dashboardController = {
                 stats: {
                     users: userCount[0].count,
                     books: bookCount[0].count,
-                    articles: articleCount[0].count
+                    articles: articleCount[0].count,
+                    activeBorrowers: activeBorrowersCount
                 },
                 latestLoans: latestLoans
             });

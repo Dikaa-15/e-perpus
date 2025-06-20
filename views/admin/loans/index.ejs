@@ -4,11 +4,15 @@
         <h2 class="text-2xl font-bold text-gray-900">Loans Management</h2>
         <p class="mt-1 text-sm text-gray-600">Manage book loans and returns</p>
     </div>
-    <div>
-        <button onclick="openCreateModal()" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg flex items-center">
+    <div class="flex space-x-4">
+        <button onclick="openCreateModal()" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg flex items-center justify-center whitespace-nowrap">
             <i class="fas fa-plus mr-2"></i>
             Add New Loan
         </button>
+        <a id="exportExcelBtn" href="#" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center justify-center whitespace-nowrap">
+            <i class="fas fa-file-excel mr-2"></i>
+            Export to Excel
+        </a>
     </div>
 </div>
 
@@ -229,91 +233,69 @@
 </div>
 
 <!-- Create Loan Modal -->
-<div id="createModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-10 mx-auto p-6 border w-full max-w-4xl shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Create New Loan</h3>
-            <form id="createForm" action="/dashboard/loans" method="POST" class="mt-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Section 1: Loan Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Loan Information</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">
-                                    User *
-                                </label>
-                                <select name="user_id" id="user_id" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select User</option>
-                                    <% users.forEach(user => { %>
-                                        <option value="<%= user.id %>"><%= user.name %></option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="book_id">
-                                    Book *
-                                </label>
-                                <select name="book_id" id="book_id" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select Book</option>
-                                    <% books.forEach(book => { %>
-                                        <option value="<%= book.id %>"><%= book.name %></option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="loans_date">
-                                    Loan Date *
-                                </label>
-                                <input type="date" name="loans_date" id="loans_date" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<%= new Date().toISOString().split('T')[0] %>">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="loan_duration">
-                                    Loan Duration (days) *
-                                </label>
-                                <input type="number" name="loan_duration" id="loan_duration" min="1" value="7" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="return_date">
-                                    Return Date
-                                </label>
-                                <input type="date" name="return_date" id="return_date"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="due_date">
-                                    Due Date *
-                                </label>
-                                <input type="date" name="due_date" id="due_date" required readonly
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
-                                    Status *
-                                </label>
-                                <select name="status" id="status" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="borrowed" selected>Borrowed</option>
-                                    <option value="returned">Returned</option>
-                                    <option value="overdue">Overdue</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+<div id="createModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Create New Loan</h3>
+            <form id="createForm" action="/dashboard/loans" method="POST" class="space-y-8">
+                <div>
+                    <label for="user_id" class="block text-gray-800 text-sm font-semibold mb-2">User <span class="text-red-500">*</span></label>
+                    <select name="user_id" id="user_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                        <option value="">Select User</option>
+                        <% users.forEach(user => { %>
+                            <option value="<%= user.id %>"><%= user.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div>
+                    <label for="book_id" class="block text-gray-800 text-sm font-semibold mb-2">Book <span class="text-red-500">*</span></label>
+                    <select name="book_id" id="book_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                        <option value="">Select Book</option>
+                        <% books.forEach(book => { %>
+                            <option value="<%= book.id %>"><%= book.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div>
+                    <label for="loans_date" class="block text-gray-800 text-sm font-semibold mb-2">Loan Date <span class="text-red-500">*</span></label>
+                    <input type="date" name="loans_date" id="loans_date" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition" value="<%= new Date().toISOString().split('T')[0] %>">
+                </div>
+                <div>
+                    <label for="loan_duration" class="block text-gray-800 text-sm font-semibold mb-2">Loan Duration (days) <span class="text-red-500">*</span></label>
+                    <input type="number" name="loan_duration" id="loan_duration" min="1" value="7" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                </div>
+                <div>
+                    <label for="return_date" class="block text-gray-800 text-sm font-semibold mb-2">Return Date</label>
+                    <input type="date" name="return_date" id="return_date"
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                </div>
+                <div>
+                    <label for="due_date" class="block text-gray-800 text-sm font-semibold mb-2">Due Date <span class="text-red-500">*</span></label>
+                    <input type="date" name="due_date" id="due_date" required readonly
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 bg-gray-100 cursor-not-allowed focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                </div>
+                <div>
+                    <label for="status" class="block text-gray-800 text-sm font-semibold mb-2">Status <span class="text-red-500">*</span></label>
+                    <select name="status" id="status" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                        <option value="borrowed" selected>Borrowed</option>
+                        <option value="returned">Returned</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeCreateModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
-                        Create Loan
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+                        Create
                     </button>
                 </div>
             </form>
@@ -358,84 +340,64 @@
 </script>
 
 <!-- Edit Loan Modal -->
-<div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-10 mx-auto p-6 border w-full max-w-4xl shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Edit Loan</h3>
-            <form id="editForm" action="" method="POST" class="mt-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Section 1: Loan Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Loan Information</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_user_id">
-                                    User *
-                                </label>
-                                <select name="user_id" id="edit_user_id" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select User</option>
-                                    <% users.forEach(user => { %>
-                                        <option value="<%= user.id %>"><%= user.name %></option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_book_id">
-                                    Book *
-                                </label>
-                                <select name="book_id" id="edit_book_id" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select Book</option>
-                                    <% books.forEach(book => { %>
-                                        <option value="<%= book.id %>"><%= book.name %></option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_loans_date">
-                                    Loan Date *
-                                </label>
-                                <input type="date" name="loans_date" id="edit_loans_date" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_return_date">
-                                    Return Date
-                                </label>
-                                <input type="date" name="return_date" id="edit_return_date"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_due_date">
-                                    Due Date *
-                                </label>
-                                <input type="date" name="due_date" id="edit_due_date" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_status">
-                                    Status *
-                                </label>
-                                <select name="status" id="edit_status" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="borrowed">Borrowed</option>
-                                    <option value="returned">Returned</option>
-                                    <option value="overdue">Overdue</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Edit Loan</h3>
+            <form id="editForm" action="" method="POST" class="space-y-8">
+                <div>
+                    <label for="edit_user_id" class="block text-gray-800 text-sm font-semibold mb-2">User <span class="text-red-500">*</span></label>
+                    <select name="user_id" id="edit_user_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                        <option value="">Select User</option>
+                        <% users.forEach(user => { %>
+                            <option value="<%= user.id %>"><%= user.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div>
+                    <label for="edit_book_id" class="block text-gray-800 text-sm font-semibold mb-2">Book <span class="text-red-500">*</span></label>
+                    <select name="book_id" id="edit_book_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                        <option value="">Select Book</option>
+                        <% books.forEach(book => { %>
+                            <option value="<%= book.id %>"><%= book.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div>
+                    <label for="edit_loans_date" class="block text-gray-800 text-sm font-semibold mb-2">Loan Date <span class="text-red-500">*</span></label>
+                    <input type="date" name="loans_date" id="edit_loans_date" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                </div>
+                <div>
+                    <label for="edit_return_date" class="block text-gray-800 text-sm font-semibold mb-2">Return Date</label>
+                    <input type="date" name="return_date" id="edit_return_date"
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                </div>
+                <div>
+                    <label for="edit_due_date" class="block text-gray-800 text-sm font-semibold mb-2">Due Date <span class="text-red-500">*</span></label>
+                    <input type="date" name="due_date" id="edit_due_date" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                </div>
+                <div>
+                    <label for="edit_status" class="block text-gray-800 text-sm font-semibold mb-2">Status <span class="text-red-500">*</span></label>
+                    <select name="status" id="edit_status" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+                        <option value="borrowed">Borrowed</option>
+                        <option value="returned">Returned</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeEditModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
-                        Update Loan
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+                        Update
                     </button>
                 </div>
             </form>
@@ -556,6 +518,39 @@
         // Handle date filter change
         const startDateFilter = document.getElementById('startDateFilter');
         const endDateFilter = document.getElementById('endDateFilter');
+
+        // Update Export to Excel button href with current filters
+        function updateExportLink() {
+            const searchValue = searchInput.value.trim();
+            const statusValue = statusFilter.value;
+            const startDateValue = startDateFilter.value;
+            const endDateValue = endDateFilter.value;
+
+            let url = new URL(window.location.origin + '/dashboard/loans/export');
+            if (searchValue) {
+                url.searchParams.set('search', searchValue);
+            }
+            if (statusValue) {
+                url.searchParams.set('status', statusValue);
+            }
+            if (startDateValue) {
+                url.searchParams.set('startDate', startDateValue);
+            }
+            if (endDateValue) {
+                url.searchParams.set('endDate', endDateValue);
+            }
+
+            document.getElementById('exportExcelBtn').href = url.toString();
+        }
+
+        // Call updateExportLink on filter changes
+        searchInput.addEventListener('input', updateExportLink);
+        statusFilter.addEventListener('change', updateExportLink);
+        startDateFilter.addEventListener('change', updateExportLink);
+        endDateFilter.addEventListener('change', updateExportLink);
+
+        // Initialize export link on page load
+        updateExportLink();
 
         startDateFilter.addEventListener('change', function() {
             updateFilters();
