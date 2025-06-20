@@ -51,13 +51,20 @@ app.set('views', path.join(__dirname, 'views'));
 // Routes
 const authRoutes = require('./routes/auth');
 const dashboardRoutes = require('./routes/dashboard');
+const userRoutes = require('./routes/user');
 
 app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
+app.use('/user', userRoutes);
 
 // Basic route
 const homeController = require('./controllers/homeController');
-app.get('/', homeController.welcome);
+
+// Comment out or remove homeController welcome route
+// app.get('/', homeController.welcome);
+
+// Use userRoutes at root path
+app.use('/', userRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {

@@ -81,6 +81,7 @@
                         <tr class="bg-primary-light">
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Peminjam</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Buku</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Quantitas</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Pinjam</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Jatuh Tempo</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Kembali</th>
@@ -93,6 +94,7 @@
                                 <tr class="hover:bg-gray-50 cursor-pointer">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= loan.user_name %></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700"><%= loan.book_name %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-400"><%= loan.quantity %></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                         <%= new Date(loan.loans_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
                                     </td>

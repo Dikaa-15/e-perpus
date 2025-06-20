@@ -53,7 +53,8 @@ const dashboardController = {
                     l.loans_date,
                     l.due_date,
                     l.return_date,
-                    l.status
+                    l.status,
+                    l.quantity
                 FROM loans l
                 JOIN users u ON l.user_id = u.id
                 JOIN books b ON l.book_id = b.id

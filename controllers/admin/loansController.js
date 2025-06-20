@@ -290,18 +290,18 @@ exports.create = async (req, res) => {
     try {
         connection = await pool.getConnection();
 
-        const { user_id, book_id, loans_date, due_date, status } = req.body;
+        const { user_id, book_id, quantity, loans_date, due_date, status } = req.body;
 
-        if (!user_id || !book_id || !loans_date || !due_date || !status) {
+        if (!user_id || !book_id || !quantity || !loans_date || !due_date || !status) {
             req.flash('error', 'Please fill in all required fields.');
             return res.redirect('/dashboard/loans');
         }
 
         // Insert new loan
         await connection.execute(
-            `INSERT INTO loans (user_id, book_id, loans_date, due_date, status, created_at, updated_at)
-             VALUES (?, ?, ?, ?, ?, NOW(), NOW())`,
-            [user_id, book_id, loans_date, due_date, status]
+            `INSERT INTO loans (user_id, book_id, quantity, loans_date, due_date, status, created_at, updated_at)
+             VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+            [user_id, book_id, quantity, loans_date, due_date, status]
         );
 
         req.flash('success', 'Loan created successfully.');
@@ -321,9 +321,9 @@ exports.update = async (req, res) => {
         connection = await pool.getConnection();
 
         const loanId = req.params.id;
-        let { user_id, book_id, loans_date, return_date, due_date, status } = req.body;
+        let { user_id, book_id, quantity, loans_date, return_date, due_date, status } = req.body;
 
-        if (!user_id || !book_id || !loans_date || !due_date || !status) {
+        if (!user_id || !book_id || !quantity || !loans_date || !due_date || !status) {
             req.flash('error', 'Please fill in all required fields.');
             return res.redirect('/dashboard/loans');
         }
@@ -335,9 +335,9 @@ exports.update = async (req, res) => {
         }
 
         await connection.execute(
-            `UPDATE loans SET user_id = ?, book_id = ?, loans_date = ?, return_date = ?, due_date = ?, status = ?, updated_at = NOW()
+            `UPDATE loans SET user_id = ?, book_id = ?, quantity = ?, loans_date = ?, return_date = ?, due_date = ?, status = ?, updated_at = NOW()
              WHERE id = ?`,
-            [user_id, book_id, loans_date, return_date || null, due_date, status, loanId]
+            [user_id, book_id, quantity, loans_date, return_date || null, due_date, status, loanId]
         );
 
         req.flash('success', 'Loan updated successfully.');
