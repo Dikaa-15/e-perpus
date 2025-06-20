@@ -1,93 +1,119 @@
-<div class="py-6">
+<div class="py-6 px-8 bg-gray-50 min-h-screen">
     <!-- Page Title -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p class="mt-2 text-sm text-gray-600">Selamat datang kembali, <%= user.name %></p>
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Dashboard</h1>
+        <p class="mt-2 text-lg text-gray-600">Selamat datang kembali, <%= user.name %></p>
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
         <!-- Users Card -->
-        <div class="bg-primary-light rounded-lg shadow-lg p-6 transition-transform duration-300 hover:scale-105">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Total Pengguna</p>
-                    <h3 class="text-2xl font-bold text-gray-900 mt-1"><%= stats.users %></h3>
-                </div>
-                <div class="bg-primary rounded-full p-3">
-                    <i class="fas fa-users text-white text-xl"></i>
-                </div>
+        <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Total Pengguna</p>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.users %></h3>
+            </div>
+            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+                <i class="fas fa-users text-2xl"></i>
             </div>
         </div>
 
         <!-- Books Card -->
-        <div class="bg-primary-light rounded-lg shadow-lg p-6 transition-transform duration-300 hover:scale-105">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Total Buku</p>
-                    <h3 class="text-2xl font-bold text-gray-900 mt-1"><%= stats.books %></h3>
-                </div>
-                <div class="bg-primary rounded-full p-3">
-                    <i class="fas fa-book text-white text-xl"></i>
-                </div>
+        <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Total Buku</p>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.books %></h3>
+            </div>
+            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+                <i class="fas fa-book text-2xl"></i>
             </div>
         </div>
 
         <!-- Articles Card -->
-        <div class="bg-primary-light rounded-lg shadow-lg p-6 transition-transform duration-300 hover:scale-105">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Total Artikel</p>
-                    <h3 class="text-2xl font-bold text-gray-900 mt-1"><%= stats.articles %></h3>
-                </div>
-                <div class="bg-primary rounded-full p-3">
-                    <i class="fas fa-newspaper text-white text-xl"></i>
-                </div>
+        <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Total Artikel</p>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.articles %></h3>
+            </div>
+            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+                <i class="fas fa-newspaper text-2xl"></i>
+            </div>
+        </div>
+
+        <!-- Active Borrowers Card -->
+        <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Peminjam Aktif</p>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.activeBorrowers %></h3>
+            </div>
+            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+                <i class="fas fa-user-check text-2xl"></i>
             </div>
         </div>
     </div>
 
+    <!-- Filter by Date Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Filter by Date Peminjaman Card -->
+        <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex flex-col">
+            <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide mb-2">Filter by Loans Date</p>
+            <input type="date" name="filterLoansDate" id="filterLoansDate" class="border border-gray-300 rounded-md p-2 mb-4" value="<%= typeof filterLoansDate !== 'undefined' ? filterLoansDate : '' %>" />
+            <!-- Removed filter button for auto update -->
+        </div>
+
+        <!-- Filter by Date Peminjaman Card -->
+        <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex flex-col">
+            <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide mb-2">Filter by Due Date</p>
+            <input type="date" name="filterDueDate" id="filterDueDate" class="border border-gray-300 rounded-md p-2 mb-4" value="<%= typeof filterDueDate !== 'undefined' ? filterDueDate : '' %>" />
+            <!-- Removed filter button for auto update -->
+        </div>
+    </div>
+
     <!-- Latest Loans Table -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="px-6 py-4 bg-primary">
-            <h2 class="text-xl font-semibold text-white">Peminjaman Terbaru</h2>
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-primary rounded-t-xl">
+            <h2 class="text-2xl font-semibold text-white">Peminjaman Terbaru</h2>
         </div>
         <div class="p-6">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr class="bg-primary-light">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Peminjam</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Buku</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Tanggal Pinjam</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Jatuh Tempo</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Peminjam</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Buku</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Pinjam</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Jatuh Tempo</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Kembali</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <% if (latestLoans.length > 0) { %>
                             <% latestLoans.forEach(loan => { %>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= loan.user_name %></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= loan.book_name %></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <tr class="hover:bg-gray-50 cursor-pointer">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= loan.user_name %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700"><%= loan.book_name %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                         <%= new Date(loan.loans_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                         <%= new Date(loan.due_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                        <%= new Date(loan.return_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <% if (loan.status === 'borrowed') { %>
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                                Dipinjam
+                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                borrowed
                                             </span>
                                         <% } else if (loan.status === 'returned') { %>
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                Dikembalikan
+                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                Returned
                                             </span>
                                         <% } else { %>
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                Terlambat
+                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                                Over due
                                             </span>
                                         <% } %>
                                     </td>
@@ -106,3 +132,111 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const filterLoansDateInput = document.getElementById('filterLoansDate');
+    const filterDueDateInput = document.getElementById('filterDueDate');
+
+    // Debounce function to limit requests
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
+    async function fetchFilteredData() {
+        const filterLoansDate = filterLoansDateInput.value;
+        const filterDueDate = filterDueDateInput.value;
+
+        const params = new URLSearchParams();
+        if (filterLoansDate) params.append('filterLoansDate', filterLoansDate);
+        if (filterDueDate) params.append('filterDueDate', filterDueDate);
+
+        try {
+            const response = await fetch(`/dashboard?${params.toString()}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+
+            // Update stats
+            const statsCards = document.querySelectorAll('h3.text-3xl.font-bold.text-gray-900.mt-1');
+            if (statsCards.length >= 3) {
+                statsCards[0].textContent = data.stats.users;
+                statsCards[1].textContent = data.stats.books;
+                statsCards[2].textContent = data.stats.articles;
+            }
+
+            // Update latest loans table body
+            const tbody = document.querySelector('tbody.bg-white.divide-y.divide-gray-200');
+            tbody.innerHTML = '';
+
+            if (data.latestLoans.length > 0) {
+                data.latestLoans.forEach(loan => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50 cursor-pointer';
+
+                    const userTd = document.createElement('td');
+                    userTd.className = 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900';
+                    userTd.textContent = loan.user_name;
+                    tr.appendChild(userTd);
+
+                    const bookTd = document.createElement('td');
+                    bookTd.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-700';
+                    bookTd.textContent = loan.book_name;
+                    tr.appendChild(bookTd);
+
+                    const loansDateTd = document.createElement('td');
+                    loansDateTd.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-700';
+                    loansDateTd.textContent = new Date(loan.loans_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    tr.appendChild(loansDateTd);
+
+                    const dueDateTd = document.createElement('td');
+                    dueDateTd.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-700';
+                    dueDateTd.textContent = new Date(loan.due_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    tr.appendChild(dueDateTd);
+
+                    const statusTd = document.createElement('td');
+                    statusTd.className = 'px-6 py-4 whitespace-nowrap';
+                    let statusSpan = document.createElement('span');
+                    statusSpan.className = 'px-3 py-1 inline-flex text-xs font-semibold rounded-full ';
+                    if (loan.status === 'borrowed') {
+                        statusSpan.classList.add('bg-yellow-100', 'text-yellow-800');
+                        statusSpan.textContent = 'Dipinjam';
+                    } else if (loan.status === 'returned') {
+                        statusSpan.classList.add('bg-green-100', 'text-green-800');
+                        statusSpan.textContent = 'Dikembalikan';
+                    } else {
+                        statusSpan.classList.add('bg-red-100', 'text-red-800');
+                        statusSpan.textContent = 'Terlambat';
+                    }
+                    statusTd.appendChild(statusSpan);
+                    tr.appendChild(statusTd);
+
+                    tbody.appendChild(tr);
+                });
+            } else {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 5;
+                td.className = 'px-6 py-4 text-center text-sm text-gray-500';
+                td.textContent = 'Tidak ada data peminjaman';
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            }
+        } catch (error) {
+            console.error('Error fetching filtered data:', error);
+        }
+    }
+
+    const debouncedFetch = debounce(fetchFilteredData, 500);
+
+    filterLoansDateInput.addEventListener('input', debouncedFetch);
+    filterDueDateInput.addEventListener('input', debouncedFetch);
+});
+</script>

@@ -37,6 +37,7 @@
             <button 
                 id="clearSearch" 
                 class="w-full bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+                style="<% if (!search) { %>display: none;<% } %>"
             >
                 <i class="fas fa-times mr-1"></i>
                 Clear
@@ -179,26 +180,24 @@
 </div>
 
 <!-- Create Category Modal -->
-<div id="createModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Create New Category</h3>
-            <form id="createForm" action="/dashboard/categories" method="POST" class="mt-4">
+<div id="createModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Create New Category</h3>
+            <form id="createForm" action="/dashboard/categories" method="POST" class="space-y-8">
                 <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                        Name *
-                    </label>
+                    <label for="name" class="block text-gray-800 text-sm font-semibold mb-2">Name <span class="text-red-500">*</span></label>
                     <input type="text" name="name" id="name" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end mt-8 space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeCreateModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
                         Create
                     </button>
                 </div>
@@ -208,26 +207,24 @@
 </div>
 
 <!-- Edit Category Modal -->
-<div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Edit Category</h3>
-            <form id="editForm" action="" method="POST" class="mt-4">
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Edit Category</h3>
+            <form id="editForm" action="" method="POST" class="space-y-8">
                 <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_name">
-                        Name *
-                    </label>
+                    <label for="edit_name" class="block text-gray-800 text-sm font-semibold mb-2">Name <span class="text-red-500">*</span></label>
                     <input type="text" name="name" id="edit_name" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end mt-8 space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeEditModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
                         Update
                     </button>
                 </div>

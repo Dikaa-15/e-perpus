@@ -50,6 +50,7 @@
             <button 
                 id="clearFilters" 
                 class="w-full bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+                style="<% if (!search && !status) { %>display: none;<% } %>"
             >
                 <i class="fas fa-times mr-1"></i>
                 Clear
@@ -121,6 +122,21 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex space-x-2">
+                                    <button 
+                                        class="show-btn text-gray-600 hover:text-gray-800" 
+                                        title="View"
+                                        data-id="<%- user.id %>"
+                                        data-name="<%- user.name %>"
+                                        data-email="<%- user.email %>"
+                                        data-phone="<%- user.phone || '' %>"
+                                        data-nik="<%- user.nik || '' %>"
+                                        data-roles="<%- user.roles %>"
+                                        data-address="<%- user.address || '' %>"
+                                        data-date_of_birth="<%- user.date_of_birth ? new Date(user.date_of_birth).toISOString().split('T')[0] : '' %>"
+                                        data-gender="<%- user.gender || 'male' %>"
+                                        data-is_active="<%- user.is_active %>">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
                                     <button 
                                         class="edit-btn text-primary hover:text-primary-dark" 
                                         title="Edit"
@@ -229,104 +245,84 @@
 </div>
 
 <!-- Create User Modal -->
-<div id="createModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-10 mx-auto p-6 border w-full max-w-4xl shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Create New User</h3>
-            <form id="createForm" action="/dashboard/users" method="POST" class="mt-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div id="createModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Create New User</h3>
+            <form id="createForm" action="/dashboard/users" method="POST" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Section 1: Basic Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Basic Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Basic Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                                    Name *
-                                </label>
+                                <label for="name" class="block text-gray-800 text-sm font-semibold mb-2">Name <span class="text-red-500">*</span></label>
                                 <input type="text" name="name" id="name" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                                    Email *
-                                </label>
+                                <label for="email" class="block text-gray-800 text-sm font-semibold mb-2">Email <span class="text-red-500">*</span></label>
                                 <input type="email" name="email" id="email" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                                    Password *
-                                </label>
+                                <label for="password" class="block text-gray-800 text-sm font-semibold mb-2">Password <span class="text-red-500">*</span></label>
                                 <input type="password" name="password" id="password" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-                                    Phone
-                                </label>
+                                <label for="phone" class="block text-gray-800 text-sm font-semibold mb-2">Phone</label>
                                 <input type="tel" name="phone" id="phone"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="nik">
-                                    NIK
-                                </label>
+                                <label for="nik" class="block text-gray-800 text-sm font-semibold mb-2">NIK</label>
                                 <input type="text" name="nik" id="nik"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                         </div>
                     </div>
 
                     <!-- Section 2: Additional Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Additional Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Additional Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="roles">
-                                    Role *
-                                </label>
+                                <label for="roles" class="block text-gray-800 text-sm font-semibold mb-2">Role <span class="text-red-500">*</span></label>
                                 <select name="roles" id="roles" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="user">User</option>
                                     <option value="admin">Admin</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="gender">
-                                    Gender
-                                </label>
+                                <label for="gender" class="block text-gray-800 text-sm font-semibold mb-2">Gender</label>
                                 <select name="gender" id="gender"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="date_of_birth">
-                                    Date of Birth
-                                </label>
+                                <label for="date_of_birth" class="block text-gray-800 text-sm font-semibold mb-2">Date of Birth</label>
                                 <input type="date" name="date_of_birth" id="date_of_birth"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
-                                    Address
-                                </label>
+                                <label for="address" class="block text-gray-800 text-sm font-semibold mb-2">Address</label>
                                 <textarea name="address" id="address" rows="3"
-                                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                                          class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition"></textarea>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2">
-                                    Status
-                                </label>
+                                <label class="block text-gray-800 text-sm font-semibold mb-2">Status</label>
                                 <div class="flex items-center">
                                     <label class="inline-flex items-center cursor-pointer toggle-switch">
                                         <input type="checkbox" name="is_active" id="create_is_active" checked class="sr-only">
                                         <div class="relative">
-                                            <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                                            <div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors duration-300 ease-in-out"></div>
+                                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transition-transform duration-300 ease-in-out"></div>
                                         </div>
-                                        <div class="ml-3 text-gray-700 font-medium">
+                                        <div class="ml-3 text-gray-800 font-semibold">
                                             <span class="status-text">Active</span>
                                         </div>
                                     </label>
@@ -336,13 +332,13 @@
                     </div>
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end mt-8 space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeCreateModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
                         Create User
                     </button>
                 </div>
@@ -352,97 +348,79 @@
 </div>
 
 <!-- Edit User Modal -->
-<div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-    <div class="relative top-10 mx-auto p-6 border w-full max-w-4xl shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Edit User</h3>
-            <form id="editForm" action="" method="POST" class="mt-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Edit User</h3>
+            <form id="editForm" action="" method="POST" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Section 1: Basic Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Basic Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Basic Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_name">
-                                    Name *
-                                </label>
+                                <label for="edit_name" class="block text-gray-800 text-sm font-semibold mb-2">Name <span class="text-red-500">*</span></label>
                                 <input type="text" name="name" id="edit_name" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_email">
-                                    Email *
-                                </label>
+                                <label for="edit_email" class="block text-gray-800 text-sm font-semibold mb-2">Email <span class="text-red-500">*</span></label>
                                 <input type="email" name="email" id="edit_email" required
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_phone">
-                                    Phone
-                                </label>
+                                <label for="edit_phone" class="block text-gray-800 text-sm font-semibold mb-2">Phone</label>
                                 <input type="tel" name="phone" id="edit_phone"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_nik">
-                                    NIK
-                                </label>
+                                <label for="edit_nik" class="block text-gray-800 text-sm font-semibold mb-2">NIK</label>
                                 <input type="text" name="nik" id="edit_nik"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                         </div>
                     </div>
 
                     <!-- Section 2: Additional Information -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="text-md font-semibold text-gray-800 mb-4">Additional Information</h4>
-                        <div class="space-y-4">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Additional Information</h4>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_roles">
-                                    Role *
-                                </label>
+                                <label for="edit_roles" class="block text-gray-800 text-sm font-semibold mb-2">Role <span class="text-red-500">*</span></label>
                                 <select name="roles" id="edit_roles" required
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="user">User</option>
                                     <option value="admin">Admin</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_gender">
-                                    Gender
-                                </label>
+                                <label for="edit_gender" class="block text-gray-800 text-sm font-semibold mb-2">Gender</label>
                                 <select name="gender" id="edit_gender"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_date_of_birth">
-                                    Date of Birth
-                                </label>
+                                <label for="edit_date_of_birth" class="block text-gray-800 text-sm font-semibold mb-2">Date of Birth</label>
                                 <input type="date" name="date_of_birth" id="edit_date_of_birth"
-                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                       class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit_address">
-                                    Address
-                                </label>
+                                <label for="edit_address" class="block text-gray-800 text-sm font-semibold mb-2">Address</label>
                                 <textarea name="address" id="edit_address" rows="3"
-                                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                                          class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition"></textarea>
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2">
-                                    Status
-                                </label>
+                                <label class="block text-gray-800 text-sm font-semibold mb-2">Status</label>
                                 <div class="flex items-center">
                                     <label class="inline-flex items-center cursor-pointer toggle-switch">
                                         <input type="checkbox" name="is_active" id="edit_is_active" class="sr-only">
                                         <div class="relative">
-                                            <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                                            <div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors duration-300 ease-in-out"></div>
+                                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transition-transform duration-300 ease-in-out"></div>
                                         </div>
-                                        <div class="ml-3 text-gray-700 font-medium">
+                                        <div class="ml-3 text-gray-800 font-semibold">
                                             <span class="status-text">Active</span>
                                         </div>
                                     </label>
@@ -452,13 +430,13 @@
                     </div>
                 </div>
                 
-                <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                <div class="flex items-center justify-end mt-8 space-x-4 pt-6 border-t border-gray-200">
                     <button type="button" onclick="closeEditModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
                     <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
                         Update User
                     </button>
                 </div>
@@ -502,18 +480,18 @@
 </script>
 
 <style>
-    /* Toggle Switch Styles */
-    .toggle-switch input:checked + div {
-        background-color: #10B981;
-    }
-    
-    .toggle-switch input:checked + div .dot {
-        transform: translateX(24px);
-    }
-    
-    .toggle-switch .dot {
-        transition: transform 0.3s ease;
-    }
+/* Toggle Switch Styles */
+.toggle-switch input:checked + div {
+    background-color: #10B981;
+}
+
+.toggle-switch input:checked + div .dot {
+    transform: translateX(24px);
+}
+
+.toggle-switch .dot {
+    transition: transform 0.3s ease;
+}
 </style>
 
 <script>
@@ -695,5 +673,113 @@
                 confirmButtonColor: '#FFB823'
             });
         }
+    });
+</script>
+
+<!-- Show User Modal -->
+<div id="showModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">User Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Section 1: Basic Information -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Basic Information</h4>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Name</label>
+                            <p id="show_name" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Email</label>
+                            <p id="show_email" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Phone</label>
+                            <p id="show_phone" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">NIK</label>
+                            <p id="show_nik" class="text-gray-900"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Additional Information -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Additional Information</h4>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Role</label>
+                            <p id="show_roles" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Gender</label>
+                            <p id="show_gender" class="text-gray-900 capitalize"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Date of Birth</label>
+                            <p id="show_date_of_birth" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Address</label>
+                            <p id="show_address" class="text-gray-900 whitespace-pre-line"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Status</label>
+                            <p id="show_status" class="text-gray-900 font-semibold"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-end mt-8 pt-6 border-t border-gray-200">
+                <button type="button" onclick="closeShowModal()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Show Modal Functions
+    function openShowModal(button) {
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+            const date = new Date(dateString);
+            if (isNaN(date)) return '-';
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            return `${day} ${month} ${year}`;
+        }
+
+        document.getElementById('show_name').textContent = button.dataset.name;
+        document.getElementById('show_email').textContent = button.dataset.email;
+        document.getElementById('show_phone').textContent = button.dataset.phone || '-';
+        document.getElementById('show_nik').textContent = button.dataset.nik || '-';
+        document.getElementById('show_roles').textContent = button.dataset.roles;
+        document.getElementById('show_gender').textContent = button.dataset.gender;
+        document.getElementById('show_date_of_birth').textContent = formatDate(button.dataset.date_of_birth);
+        document.getElementById('show_address').textContent = button.dataset.address || '-';
+        document.getElementById('show_status').textContent = (button.dataset.is_active === 'true' || button.dataset.is_active === '1') ? 'Active' : 'Inactive';
+
+        document.getElementById('showModal').classList.remove('hidden');
+    }
+
+    function closeShowModal() {
+        document.getElementById('showModal').classList.add('hidden');
+    }
+
+    // Attach event listeners to show buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const showButtons = document.querySelectorAll('.show-btn');
+        showButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                openShowModal(this);
+            });
+        });
     });
 </script>

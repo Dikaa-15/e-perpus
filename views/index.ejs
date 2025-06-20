@@ -284,6 +284,19 @@
             </div>
         </form>
     </div>
+    <% } else { %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <% popularBooks.forEach(book => { %>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <img src="<%= book.cover || '/images/default-book-cover.png' %>" alt="<%= book.name %>" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h3 class="font-semibold text-lg text-gray-800 mb-2"><%= book.name %></h3>
+                <p class="text-gray-600 text-sm">Penulis: <%= book.author || 'Tidak diketahui' %></p>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+    <% } %>
 </div>
 
 <!-- Success/Error Messages -->

@@ -16,6 +16,7 @@ const isGuest = (req, res, next) => {
 };
 
 const isAdmin = async (req, res, next) => {
+    console.log('isAdmin middleware: session userId =', req.session ? req.session.userId : null);
     if (!req.session || !req.session.userId) {
         req.flash('error', 'Please login to access this page');
         return res.redirect('/auth/login');
@@ -28,6 +29,8 @@ const isAdmin = async (req, res, next) => {
             [req.session.userId]
         );
         connection.release();
+
+        console.log('isAdmin middleware: user roles from DB =', users.length > 0 ? users[0].roles : 'none');
 
         if (users.length === 0 || users[0].roles !== 'admin') {
             req.flash('error', 'Access denied. Admin privileges required.');
