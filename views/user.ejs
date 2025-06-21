@@ -1,0 +1,167 @@
+<!-- Banner Section -->
+<section class="bg-gray-100 py-12">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+    <div class="md:w-1/2 mb-8 md:mb-0">
+      <p class="text-sm uppercase text-gray-500 mb-2">BOOK COVER ART SALE</p>
+      <h1 class="text-4xl font-extrabold mb-4">
+        PREMADE BOOK <span class="font-black">KINDLE COVERS</span>
+      </h1>
+      <p class="text-gray-600 mb-6">Civilization ended long before Lynn Tanner was born.</p>
+      <button class="border border-gray-800 px-6 py-2 text-gray-800 font-semibold hover:bg-gray-200 transition duration-300">
+        SHOP NOW
+      </button>
+    </div>
+    <div class="md:w-1/2 flex justify-center space-x-4">
+      <img src="/images/banner/bre-though.jpg" alt="Book Cover 1" class="h-64 object-cover shadow-lg rounded-md" />
+      <img src="/images/banner/plshpy-moon.jpg" alt="Book Cover 2" class="h-48 object-cover shadow-lg rounded-md" />
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-4 gap-6 text-center text-gray-600">
+  <div>
+    <i class="fas fa-shipping-fast text-3xl mb-2"></i>
+    <p class="text-sm font-semibold">Free Shipping</p>
+    <p class="text-xs">Free shipping on all US orders over $99</p>
+  </div>
+  <div>
+    <i class="fas fa-headset text-3xl mb-2"></i>
+    <p class="text-sm font-semibold">Support 24/7</p>
+    <p class="text-xs">Contact us 24 hours a day, 7 days a week</p>
+  </div>
+  <div>
+    <i class="fas fa-undo text-3xl mb-2"></i>
+    <p class="text-sm font-semibold">30 Days Return</p>
+    <p class="text-xs">Simply return it within 30 days for an exchange</p>
+  </div>
+  <div>
+    <i class="fas fa-lock text-3xl mb-2"></i>
+    <p class="text-sm font-semibold">100% Payment Secure</p>
+    <p class="text-xs">We ensure secure payment with PEV</p>
+  </div>
+</section>
+
+<!-- Audiobooks Section -->
+<section class="max-w-7xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-semibold text-gray-800">Audiobooks</h2>
+    <div class="text-sm text-gray-500 space-x-4">
+      <button class="hover:text-gray-800 font-semibold">Shots</button>
+      <button class="hover:text-gray-800 font-semibold">E-Books</button>
+      <button class="hover:text-gray-800 font-semibold">Book Awards</button>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+    <% if (audiobooks && audiobooks.length > 0) { %>
+      <% audiobooks.forEach(function(book) { %>
+        <div class="relative bg-white rounded shadow hover:shadow-lg transition duration-300">
+          <img src="<%= book.cover || '/images/default-book-cover.png' %>" alt="<%= book.name %>" class="w-full h-48 object-cover rounded-t" />
+          <div class="p-2">
+            <span class="absolute top-2 left-2 bg-black text-white text-xs px-1 rounded">NEW</span>
+            <h3 class="text-sm font-semibold mt-2"><%= book.name %></h3>
+            <p class="text-xs text-gray-600"><%= book.author || 'Unknown Author' %></p>
+          </div>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p class="text-gray-600">No audiobooks available at the moment.</p>
+    <% } %>
+  </div>
+</section>
+
+<!-- New Arrivals Section -->
+<section class="max-w-7xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-semibold text-gray-800">New Arrivals</h2>
+    <div class="text-sm text-gray-500 space-x-4">
+      <button class="hover:text-gray-800 font-semibold text-red-500">Top</button>
+      <button class="hover:text-gray-800 font-semibold">Bottoms</button>
+      <button class="hover:text-gray-800 font-semibold">Outsourcer</button>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+    <!-- Example New Arrival Item -->
+    <div class="relative bg-white rounded shadow hover:shadow-lg transition duration-300">
+      <img src="/images/newarrival1.jpg" alt="Woolfier Bonnet" class="w-full h-48 object-cover rounded-t" />
+      <div class="p-2">
+        <span class="absolute top-2 left-2 bg-black text-white text-xs px-1 rounded">NEW</span>
+        <h3 class="text-sm font-semibold mt-2">Woolfier Bonnet</h3>
+        <p class="text-xs text-gray-600">$60.70</p>
+      </div>
+    </div>
+    <div class="relative bg-white rounded shadow hover:shadow-lg transition duration-300">
+      <img src="/images/newarrival2.jpg" alt="The Best is Yet To Come" class="w-full h-48 object-cover rounded-t" />
+      <div class="p-2">
+        <span class="absolute top-2 left-2 bg-black text-white text-xs px-1 rounded">NEW</span>
+        <h3 class="text-sm font-semibold mt-2">The Best is Yet To Come</h3>
+        <p class="text-xs text-gray-600">$29.00</p>
+      </div>
+    </div>
+    <div class="relative bg-white rounded shadow hover:shadow-lg transition duration-300">
+      <img src="/images/newarrival3.jpg" alt="Printed Dress1" class="w-full h-48 object-cover rounded-t" />
+      <div class="p-2">
+        <span class="absolute top-2 left-2 bg-black text-white text-xs px-1 rounded">NEW</span>
+        <h3 class="text-sm font-semibold mt-2">Printed Dress1</h3>
+        <p class="text-xs text-gray-600">$55.10</p>
+      </div>
+    </div>
+    <div class="relative bg-white rounded shadow hover:shadow-lg transition duration-300">
+      <img src="/images/newarrival4.jpg" alt="New Look Mix Material" class="w-full h-48 object-cover rounded-t" />
+      <div class="p-2">
+        <span class="absolute top-2 left-2 bg-black text-white text-xs px-1 rounded">NEW</span>
+        <h3 class="text-sm font-semibold mt-2">New Look Mix Material</h3>
+        <p class="text-xs text-gray-600">$67.90</p>
+      </div>
+    </div>
+    <div class="relative bg-white rounded shadow hover:shadow-lg transition duration-300">
+      <img src="/images/newarrival5.jpg" alt="Moosi Teddy Bear Fur Bag" class="w-full h-48 object-cover rounded-t" />
+      <div class="p-2">
+        <span class="absolute top-2 left-2 bg-black text-white text-xs px-1 rounded">NEW</span>
+        <h3 class="text-sm font-semibold mt-2">Moosi Teddy Bear Fur Bag</h3>
+        <p class="text-xs text-gray-600">$69.30</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Promotional Banners Section -->
+<section class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="bg-black text-white rounded-lg p-6 flex flex-col justify-center items-center">
+    <p class="text-sm uppercase mb-2">Pre-Designed Book Cover Sale</p>
+    <h3 class="text-2xl font-bold mb-4">$200</h3>
+    <button class="border border-white px-4 py-2 hover:bg-white hover:text-black transition duration-300">SHOP NOW</button>
+  </div>
+  <div class="bg-yellow-400 rounded-lg p-6 flex flex-col justify-center items-center text-black">
+    <p class="text-lg font-semibold mb-2">Maz Evens</p>
+    <p class="mb-4">author of the WHO LET THE GODS</p>
+    <img src="/images/promo-book1.png" alt="Simply The Quest" class="h-40 object-contain" />
+  </div>
+  <div class="bg-pink-400 rounded-lg p-6 flex flex-col justify-center items-center text-white">
+    <p class="text-lg font-semibold mb-2">SALE 50%</p>
+    <p class="mb-4">Children's Books</p>
+    <img src="/images/promo-book2.png" alt="Computing Genius" class="h-40 object-contain" />
+  </div>
+</section>
+
+<!-- Best Sellers Section -->
+<section class="max-w-7xl mx-auto px-4 py-8">
+  <h2 class="text-xl font-semibold text-gray-800 mb-6">Best Sellers</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+    <div class="bg-white rounded shadow hover:shadow-lg transition duration-300 p-2 flex flex-col items-center">
+      <img src="/images/bestseller1.jpg" alt="Printed Summer Dress" class="h-32 object-cover rounded mb-2" />
+      <p class="text-xs text-gray-600">Printed Summer Dress</p>
+      <p class="text-xs font-semibold">$47.59</p>
+    </div>
+    <div class="bg-white rounded shadow hover:shadow-lg transition duration-300 p-2 flex flex-col items-center">
+      <img src="/images/bestseller2.jpg" alt="Moosi Teddy Bear Fur Bag" class="h-32 object-cover rounded mb-2" />
+      <p class="text-xs text-gray-600">Moosi Teddy Bear Fur Bag</p>
+      <p class="text-xs font-semibold">$69.30</p>
+    </div>
+    <div class="bg-white rounded shadow hover:shadow-lg transition duration-300 p-2 flex flex-col items-center">
+      <img src="/images/bestseller3.jpg" alt="New Look Mix Material" class="h-32 object-cover rounded mb-2" />
+      <p class="text-xs text-gray-600">New Look Mix Material</p>
+      <p class="text-xs font-semibold">$67.90</p>
+    </div>
+  </div>
+</section>

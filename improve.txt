@@ -3,7 +3,6 @@
 
 
 -- FITUR YANG HARUS DIBUAT --
-1. tampilkan peminjam aktif didashboard, mengambil data dari user yang minjem paling sering
 
 -- PERBAIKAN TAMPILAN --
 1. modal CRUD

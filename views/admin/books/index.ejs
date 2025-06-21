@@ -888,4 +888,124 @@
             });
         }
     });
+
+    // Show Modal Functions for Books
+    function openShowModal(button) {
+        document.getElementById('show_name').textContent = button.dataset.name;
+        document.getElementById('show_author').textContent = button.dataset.author || '-';
+        document.getElementById('show_publisher').textContent = button.dataset.publisher || '-';
+        document.getElementById('show_isbn').textContent = button.dataset.isbn || '-';
+        document.getElementById('show_category_name').textContent = button.dataset.category_name || '-';
+        document.getElementById('show_year_publisher').textContent = button.dataset.year_publisher || '-';
+        document.getElementById('show_language').textContent = button.dataset.language || '-';
+        document.getElementById('show_description').textContent = button.dataset.description || '-';
+
+        // Status
+        const statusText = button.dataset.is_available === '1' || button.dataset.is_available === 'true' ? 'Available' : 'Not Available';
+        document.getElementById('show_status').textContent = statusText;
+
+        // Popular
+        const popularText = button.dataset.is_popular === '1' || button.dataset.is_popular === 'true' ? 'Popular' : 'Not Popular';
+        document.getElementById('show_popular').textContent = popularText;
+
+        // Cover Image
+        const coverImg = document.getElementById('show_cover');
+        if (button.dataset.cover) {
+            coverImg.src = button.dataset.cover;
+            coverImg.style.display = 'block';
+        } else {
+            coverImg.src = '';
+            coverImg.style.display = 'none';
+        }
+
+        document.getElementById('showModal').classList.remove('hidden');
+    }
+
+    function closeShowModal() {
+        document.getElementById('showModal').classList.add('hidden');
+    }
+
+    // Attach event listeners to show buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const showButtons = document.querySelectorAll('.show-btn');
+        showButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                openShowModal(this);
+            });
+        });
+    });
 </script>
+
+<!-- Show Book Modal -->
+<div id="showModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl p-8 overflow-y-auto max-h-[90vh]">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-8">Book Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Section 1: Basic Information -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Basic Information</h4>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Title</label>
+                            <p id="show_name" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Author</label>
+                            <p id="show_author" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Publisher</label>
+                            <p id="show_publisher" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">ISBN</label>
+                            <p id="show_isbn" class="text-gray-900"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Additional Information -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-300 pb-2">Additional Information</h4>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Category</label>
+                            <p id="show_category_name" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Year Published</label>
+                            <p id="show_year_publisher" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Language</label>
+                            <p id="show_language" class="text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Status</label>
+                            <p id="show_status" class="text-gray-900 font-semibold"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Popular</label>
+                            <p id="show_popular" class="text-gray-900 font-semibold"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Description</label>
+                            <p id="show_description" class="text-gray-900 whitespace-pre-line"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-800 text-sm font-semibold mb-2">Cover Image</label>
+                            <img id="show_cover" src="" alt="Book Cover" class="h-40 w-32 object-cover rounded mt-1" style="display:none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-end mt-8 pt-6 border-t border-gray-200">
+                <button type="button" onclick="closeShowModal()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
