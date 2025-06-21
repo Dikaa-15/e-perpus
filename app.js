@@ -87,12 +87,8 @@ app.use("/articles", articlesRoutes);
 // API routes for books
 const booksApiRoutes = require('./routes/api/books');
 app.use('/api/books', booksApiRoutes);
-const authRoutes = require('./routes/auth');
-const dashboardRoutes = require('./routes/dashboard');
 const userRoutes = require('./routes/user');
 
-app.use('/auth', authRoutes);
-app.use('/dashboard', dashboardRoutes);
 app.use('/user', userRoutes);
 
 // Basic route

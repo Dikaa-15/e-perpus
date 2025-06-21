@@ -5,7 +5,7 @@
         <p class="mt-1 text-sm text-gray-600">Manage book loans and returns</p>
     </div>
     <div class="flex space-x-4">
-        <button onclick="openCreateModal()" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg flex items-center justify-center whitespace-nowrap">
+        <button onclick="openCreateModal()" class="bg-blue-600 hover:bg-primary-dark text-white px-4 py-2 rounded-lg flex items-center justify-center whitespace-nowrap">
             <i class="fas fa-plus mr-2"></i>
             Add New Loan
         </button>
@@ -102,7 +102,7 @@
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead>
-                <tr class="bg-primary-light">
+                <tr class="bg-blue-100">
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">User</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Book</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Quantitas</th>
@@ -243,8 +243,8 @@
             <form id="createForm" action="/dashboard/loans" method="POST" class="space-y-8">
                 <div>
                     <label for="user_id" class="block text-gray-800 text-sm font-semibold mb-2">User <span class="text-red-500">*</span></label>
-                    <select name="user_id" id="user_id" required
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<select name="user_id" id="user_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                         <option value="">Select User</option>
                         <% users.forEach(user => { %>
                             <option value="<%= user.id %>"><%= user.name %></option>
@@ -253,8 +253,8 @@
                 </div>
                 <div>
                     <label for="book_id" class="block text-gray-800 text-sm font-semibold mb-2">Book <span class="text-red-500">*</span></label>
-                    <select name="book_id" id="book_id" required
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<select name="book_id" id="book_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                         <option value="">Select Book</option>
                         <% books.forEach(book => { %>
                             <option value="<%= book.id %>"><%= book.name %></option>
@@ -263,33 +263,33 @@
                 </div>
                 <div>
                     <label for="quantity" class="block text-gray-800 text-sm font-semibold mb-2">Quantity <span class="text-red-500">*</span></label>
-                    <input type="number" name="quantity" id="quantity" min="1" value="1" required
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="number" name="quantity" id="quantity" min="1" value="1" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="loans_date" class="block text-gray-800 text-sm font-semibold mb-2">Loan Date <span class="text-red-500">*</span></label>
-                    <input type="date" name="loans_date" id="loans_date" required
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition" value="<%= new Date().toISOString().split('T')[0] %>">
+<input type="date" name="loans_date" id="loans_date" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition" value="<%= new Date().toISOString().split('T')[0] %>">
                 </div>
                 <div>
                     <label for="loan_duration" class="block text-gray-800 text-sm font-semibold mb-2">Loan Duration (days) <span class="text-red-500">*</span></label>
-                    <input type="number" name="loan_duration" id="loan_duration" min="1" value="7" required
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="number" name="loan_duration" id="loan_duration" min="1" value="7" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="return_date" class="block text-gray-800 text-sm font-semibold mb-2">Return Date</label>
-                    <input type="date" name="return_date" id="return_date"
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="date" name="return_date" id="return_date"
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="due_date" class="block text-gray-800 text-sm font-semibold mb-2">Due Date <span class="text-red-500">*</span></label>
-                    <input type="date" name="due_date" id="due_date" required readonly
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 bg-gray-100 cursor-not-allowed focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="date" name="due_date" id="due_date" required readonly
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 bg-gray-100 cursor-not-allowed focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="status" class="block text-gray-800 text-sm font-semibold mb-2">Status <span class="text-red-500">*</span></label>
-                    <select name="status" id="status" required
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<select name="status" id="status" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                         <option value="borrowed" selected>Borrowed</option>
                         <option value="returned">Returned</option>
                         <option value="overdue">Overdue</option>
@@ -301,8 +301,8 @@
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
-                    <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+<button type="submit"
+                            class="bg-blue-600 hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition">
                         Create
                     </button>
                 </div>
@@ -355,8 +355,8 @@
             <form id="editForm" action="" method="POST" class="space-y-8">
                 <div>
                     <label for="edit_user_id" class="block text-gray-800 text-sm font-semibold mb-2">User <span class="text-red-500">*</span></label>
-                    <select name="user_id" id="edit_user_id" required
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<select name="user_id" id="edit_user_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                         <option value="">Select User</option>
                         <% users.forEach(user => { %>
                             <option value="<%= user.id %>"><%= user.name %></option>
@@ -365,8 +365,8 @@
                 </div>
                 <div>
                     <label for="edit_book_id" class="block text-gray-800 text-sm font-semibold mb-2">Book <span class="text-red-500">*</span></label>
-                    <select name="book_id" id="edit_book_id" required
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<select name="book_id" id="edit_book_id" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                         <option value="">Select Book</option>
                         <% books.forEach(book => { %>
                             <option value="<%= book.id %>"><%= book.name %></option>
@@ -375,28 +375,28 @@
                 </div>
                 <div>
                     <label for="edit_quantity" class="block text-gray-800 text-sm font-semibold mb-2">Quantity <span class="text-red-500">*</span></label>
-                    <input type="number" name="quantity" id="edit_quantity" min="1" value="1" required
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="number" name="quantity" id="edit_quantity" min="1" value="1" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="edit_loans_date" class="block text-gray-800 text-sm font-semibold mb-2">Loan Date <span class="text-red-500">*</span></label>
-                    <input type="date" name="loans_date" id="edit_loans_date" required
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="date" name="loans_date" id="edit_loans_date" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="edit_return_date" class="block text-gray-800 text-sm font-semibold mb-2">Return Date</label>
-                    <input type="date" name="return_date" id="edit_return_date"
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="date" name="return_date" id="edit_return_date"
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="edit_due_date" class="block text-gray-800 text-sm font-semibold mb-2">Due Date <span class="text-red-500">*</span></label>
-                    <input type="date" name="due_date" id="edit_due_date" required
-                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<input type="date" name="due_date" id="edit_due_date" required
+                           class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                 </div>
                 <div>
                     <label for="edit_status" class="block text-gray-800 text-sm font-semibold mb-2">Status <span class="text-red-500">*</span></label>
-                    <select name="status" id="edit_status" required
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition">
+<select name="status" id="edit_status" required
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none transition">
                         <option value="borrowed">Borrowed</option>
                         <option value="returned">Returned</option>
                         <option value="overdue">Overdue</option>
@@ -408,8 +408,8 @@
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
                         Cancel
                     </button>
-                    <button type="submit"
-                            class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+<button type="submit"
+                            class="bg-blue-600 hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition">
                         Update
                     </button>
                 </div>

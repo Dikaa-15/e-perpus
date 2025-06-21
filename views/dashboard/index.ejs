@@ -1,8 +1,8 @@
 <div class="py-6 px-8 bg-gray-50 min-h-screen">
     <!-- Page Title -->
     <div class="mb-8">
-        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Dashboard</h1>
-        <p class="mt-2 text-lg text-gray-600">Hallo Selamat datang kembali, <%= user.name %></p>
+<h1 class="text-4xl font-extrabold text-blue-600 tracking-tight">Dashboard</h1>
+        <p class="mt-2 text-lg text-blue-600">Hallo Selamat datang kembali, <%= user.name %></p>
     </div>
 
     <!-- Stats Cards -->
@@ -10,10 +10,10 @@
         <!-- Users Card -->
         <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
             <div>
-                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Total Pengguna</p>
-                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.users %></h3>
+<p class="text-blue-600 text-sm font-semibold uppercase tracking-wide">Total Pengguna</p>
+                <h3 class="text-3xl font-bold text-blue-600 mt-1"><%= stats.users %></h3>
             </div>
-            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+            <div class="bg-blue-600 text-white rounded-full p-4 shadow-lg">
                 <i class="fas fa-users text-2xl"></i>
             </div>
         </div>
@@ -21,10 +21,10 @@
         <!-- Books Card -->
         <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
             <div>
-                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Total Buku</p>
-                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.books %></h3>
+<p class="text-blue-600 text-sm font-semibold uppercase tracking-wide">Total Buku</p>
+                <h3 class="text-3xl font-bold text-blue-600 mt-1"><%= stats.books %></h3>
             </div>
-            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+            <div class="bg-blue-600 text-white rounded-full p-4 shadow-lg">
                 <i class="fas fa-book text-2xl"></i>
             </div>
         </div>
@@ -32,10 +32,10 @@
         <!-- Articles Card -->
         <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
             <div>
-                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Total Artikel</p>
-                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.articles %></h3>
+<p class="text-blue-600 text-sm font-semibold uppercase tracking-wide">Total Artikel</p>
+                <h3 class="text-3xl font-bold text-blue-600 mt-1"><%= stats.articles %></h3>
             </div>
-            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+            <div class="bg-blue-600 text-white rounded-full p-4 shadow-lg">
                 <i class="fas fa-newspaper text-2xl"></i>
             </div>
         </div>
@@ -43,10 +43,10 @@
         <!-- Active Borrowers Card -->
         <div class="bg-white rounded-xl shadow-md p-6 transition-transform duration-300 hover:scale-105 flex items-center justify-between">
             <div>
-                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wide">Peminjam Aktif</p>
-                <h3 class="text-3xl font-bold text-gray-900 mt-1"><%= stats.activeBorrowers %></h3>
+<p class="text-blue-600 text-sm font-semibold uppercase tracking-wide">Peminjam Aktif</p>
+                <h3 class="text-3xl font-bold text-blue-600 mt-1"><%= stats.activeBorrowers %></h3>
             </div>
-            <div class="bg-primary text-white rounded-full p-4 shadow-lg">
+            <div class="bg-blue-600 text-white rounded-full p-4 shadow-lg">
                 <i class="fas fa-user-check text-2xl"></i>
             </div>
         </div>
@@ -70,52 +70,52 @@
     </div>
 
     <!-- Latest Loans Table -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <div class="px-6 py-4 bg-primary rounded-t-xl">
+    <div class="bg-blue-600 rounded-xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-blue-600 rounded-t-xl">
             <h2 class="text-2xl font-semibold text-white">Peminjaman Terbaru</h2>
         </div>
         <div class="p-6">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-300">
                     <thead>
-                        <tr class="bg-primary-light">
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Peminjam</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Buku</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Quantitas</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Pinjam</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Jatuh Tempo</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal Kembali</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                        <tr class="bg-blue-800">
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Peminjam</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Buku</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Quantitas</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Tanggal Pinjam</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Jatuh Tempo</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Tanggal Kembali</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white divide-y divide-gray-300">
                         <% if (latestLoans.length > 0) { %>
                             <% latestLoans.forEach(loan => { %>
-                                <tr class="hover:bg-gray-50 cursor-pointer">
+                                <tr class="hover:bg-gray-100 cursor-pointer">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= loan.user_name %></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700"><%= loan.book_name %></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-400"><%= loan.quantity %></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><%= loan.book_name %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-600"><%= loan.quantity %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                         <%= new Date(loan.loans_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                         <%= new Date(loan.due_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                         <%= new Date(loan.return_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <% if (loan.status === 'borrowed') { %>
-                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                                borrowed
+                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-yellow-300 text-yellow-900">
+                                                Dipinjam
                                             </span>
                                         <% } else if (loan.status === 'returned') { %>
-                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                                                Returned
+                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-green-300 text-green-900">
+                                                Dikembalikan
                                             </span>
                                         <% } else { %>
-                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-red-100 text-red-800">
-                                                Over due
+                                            <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full bg-red-300 text-red-900">
+                                                Terlambat
                                             </span>
                                         <% } %>
                                     </td>
@@ -123,7 +123,7 @@
                             <% }); %>
                         <% } else { %>
                             <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-600">
                                     Tidak ada data peminjaman
                                 </td>
                             </tr>

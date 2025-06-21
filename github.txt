@@ -1,0 +1,87 @@
+-----
+
+Baik, ini rangkuman langkah-langkah untuk Anda dan teman Anda agar bisa saling push dan pull dengan lancar di proyek GitHub Anda, mengingat situasi "upstream" yang baru saja kita perbaiki.
+
+-----
+
+## Rangkuman Alur Kerja Git untuk Anda dan Teman
+
+Tujuan kita adalah memastikan semua kode, baik dari fitur admin (Anda) maupun fitur user (teman Anda), ada di repositori GitHub utama (`Dikaa-15/e-perpus.git`) dan bisa diakses oleh masing-masing pihak.
+
+### Untuk Anda (Sebagai Pemilik Repositori Utama / Yang Mengelola)
+
+Anda sudah menambahkan remote `upstream` dan berhasil menarik perubahannya. Sekarang, untuk alur kerja yang konsisten:
+
+1.  **Pastikan Repositori Lokal Anda Selalu Terbaru:**
+    Sebelum memulai pekerjaan baru atau saat Anda tahu teman Anda telah mendorong perubahan, selalu tarik dari `upstream/master`.
+
+    ```bash
+    git pull upstream master
+    ```
+
+    *Jika ada konflik, selesaikan, `git add .`, lalu `git commit` untuk menyelesaikan merge.*
+
+2.  **Dorong Perubahan Anda:**
+    Setelah Anda membuat perubahan dan meng-commit-nya, dorong ke repositori `upstream`.
+
+    ```bash
+    git push upstream master
+    ```
+
+3.  **Gunakan Remote `upstream` untuk Semua Interaksi dengan Repositori Utama:**
+
+      * `git fetch upstream`
+      * `git pull upstream master`
+      * `git push upstream master`
+      * Gunakan `origin` jika Anda memiliki fork pribadi dari `Dikaa-15/e-perpus.git` yang ingin Anda sinkronkan secara terpisah, tetapi untuk kolaborasi inti, fokuslah pada `upstream`.
+
+-----
+
+### Untuk Teman Anda (Sebagai Kontributor)
+
+Teman Anda sudah berhasil mendorong kodenya ke `upstream/master`. Sekarang dia juga perlu membiasakan diri dengan alur ini.
+
+1.  **Selalu Tarik Perubahan Sebelum Mendorong:**
+    Ini adalah aturan emas Git. Sebelum mencoba mendorong perubahan, selalu tarik perubahan terbaru dari `upstream/master` untuk mendapatkan pekerjaan Anda (atau siapa pun yang mungkin telah mendorong).
+
+    ```bash
+    git pull upstream master
+    ```
+
+    *Jika ada konflik (karena Anda sudah mendorong perubahan Anda), dia harus menyelesaikannya: **(Edit file yang berkonflik secara manual, lalu `git add .`, lalu `git commit` untuk menyelesaikan merge).***
+
+2.  **Dorong Perubahan Anda:**
+    Setelah dia membuat perubahan, meng-commit-nya, dan berhasil melakukan `git pull` (menyelesaikan konflik jika ada), dia bisa mendorong pekerjaannya ke `upstream`.
+
+    ```bash
+    git push upstream master
+    ```
+
+    *Dia harus memastikan menggunakan `upstream`, bukan `origin` yang mengarah ke repositori lamanya (jika itu masih ada dan bukan repositori utama).*
+
+3.  **Pastikan Remote `upstream` Sudah Benar:**
+    Jika suatu saat teman Anda mengalami masalah dengan `upstream`, dia bisa memverifikasi URL-nya atau menambahkannya lagi:
+
+      * Cek URL: `git remote -v` (pastikan `upstream` mengarah ke `Dikaa-15/e-perpus.git`)
+      * Jika `upstream` hilang atau salah, dia bisa menghapus dan menambahkannya kembali:
+        ```bash
+        git remote remove upstream
+        git remote add upstream https://github.com/Dikaa-15/e-perpus.git
+        ```
+
+-----
+
+### Saran Penting untuk Kolaborasi Lebih Lanjut
+
+Meskipun alur di atas akan memungkinkan kalian saling push dan pull, bekerja langsung di cabang `master` dalam tim kecil pun masih memiliki risiko. Untuk proyek mendatang atau ketika tim bertambah besar, pertimbangkan pendekatan ini:
+
+  * **Alur Kerja Berbasis Cabang (Branching Workflow):**
+      * **Setiap fitur/tugas baru dibuat di cabang terpisah.** Misalnya, Anda bekerja di cabang `feature/admin-dashboard`, teman Anda di `feature/user-profile`.
+      * Ketika fitur selesai, ajukan **Pull Request (PR)** dari cabang fitur ke cabang `master` di GitHub.
+      * PR memungkinkan **tinjauan kode**, diskusi, dan pengujian. GitHub juga akan memberitahu secara otomatis jika ada **konflik** *sebelum* merge ke `master`.
+      * Setelah PR disetujui dan di-merge, cabang fitur bisa dihapus.
+      * Ini menjaga cabang `master` tetap bersih, stabil, dan selalu siap untuk deployment.
+
+Dengan mengikuti panduan ini, kalian berdua seharusnya dapat berkolaborasi dengan lebih lancar dan efektif. Komunikasi tetap menjadi kunci utama, terutama saat menyelesaikan konflik. Selamat bekerja\!
+
+-----
