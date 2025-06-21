@@ -40,7 +40,7 @@ const homeController = {
       const [featuredBooks] = await connection.execute(`
                 SELECT b.id, b.name, b.author, b.cover, c.name AS category_name, b.is_popular, b.is_available
                 FROM books b
-                LEFT JOIN categories c ON b.category_id = c.id
+                LEFT JOIN categories c ON b.categorie_id = c.id
                 ORDER BY b.created_at DESC
                 LIMIT 8
             `);
@@ -69,6 +69,87 @@ const homeController = {
       if (connection) connection.release();
     }
   },
+
+  getBooksByCategory: async (req, res) => {
+    let connection;
+    try {
+      const categorySlug = req.query.category || 'all';
+      const searchTerm = req.query.search ? req.query.search.toLowerCase().trim() : '';
+      connection = await pool.getConnection();
+
+      let query = `
+        SELECT b.id, b.name, b.author, b.cover, c.name AS category_name, b.is_popular, b.is_available
+        FROM books b
+        LEFT JOIN categories c ON b.categorie_id = c.id
+      `;
+
+      let params = [];
+
+      if (categorySlug !== 'all') {
+        query += ' WHERE c.slug = ?';
+        params.push(categorySlug);
+      }
+
+      if (searchTerm) {
+        if (categorySlug !== 'all') {
+          query += ' AND (LOWER(b.name) LIKE ? OR LOWER(b.author) LIKE ?)';
+        } else {
+          query += ' WHERE (LOWER(b.name) LIKE ? OR LOWER(b.author) LIKE ?)';
+        }
+        params.push('%' + searchTerm + '%', '%' + searchTerm + '%');
+      }
+
+      query += ' ORDER BY b.created_at DESC';
+
+      const [books] = await connection.execute(query, params);
+
+      res.json({ success: true, books });
+    } catch (error) {
+      console.error('Error fetching books by category:', error);
+      res.status(500).json({ success: false, error: 'Failed to fetch books' });
+    } finally {
+      if (connection) connection.release();
+    }
+  },
+
+  getArticlesByCategory: async (req, res) => {
+    let connection;
+    try {
+      const categorySlug = req.query.category || 'all';
+      const searchTerm = req.query.search ? req.query.search.toLowerCase().trim() : '';
+      connection = await pool.getConnection();
+
+      let query = `
+        SELECT a.id, a.title, a.cover, SUBSTRING(a.content, 1, 150) AS excerpt, c.name AS category_name
+        FROM articles a
+        LEFT JOIN categories c ON a.categorie_id = c.id
+        WHERE a.is_published = 1
+      `;
+
+      let params = [];
+
+      if (categorySlug !== 'all') {
+        query += ' AND c.slug = ?';
+        params.push(categorySlug);
+      }
+
+      if (searchTerm) {
+        query += ' AND (LOWER(a.title) LIKE ?)';
+        params.push('%' + searchTerm + '%');
+      }
+
+      query += ' ORDER BY a.created_at DESC';
+
+      const [articles] = await connection.execute(query, params);
+
+      res.json({ success: true, articles });
+    } catch (error) {
+      console.error('Error fetching articles by category:', error);
+      res.status(500).json({ success: false, error: 'Failed to fetch articles' });
+    } finally {
+      if (connection) connection.release();
+    }
+  }
 };
 
 module.exports = homeController;

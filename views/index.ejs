@@ -3,7 +3,7 @@
     <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\" fill-rule=\"evenodd\"%3E%3Ccircle cx=\"3\" cy=\"3\" r=\"3\"/%3E%3Ccircle cx=\"13\" cy=\"13\" r=\"3\"/%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
     <div class="container mx-auto px-6">
         <div class="text-center relative z-10">
-            <h1 class="text-5xl md:text-7xl font-bold mb-8 animate-fade-in">E-Perpustakaan</h1>
+            <h1 class="text-5xl md:text-5xl font-bold mb-8 animate-fade-in">Perpustakaan SMKJP1</h1>
             
             <!-- Glassmorphism Typing Animation -->
             <div class="glassmorphism-hero max-w-2xl mx-auto p-6 rounded-xl backdrop-blur-md bg-white/10 border border-white/20 mb-10">
@@ -63,47 +63,42 @@
     </div>
 </div>
 
-<!-- Category Navigation Tabs -->
-<div class="mb-12 text-center mx-auto">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center justify-center">
-        <span class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
-            <i class="fas fa-th-large text-blue-600"></i>
-        </span>
-        Kategori Buku
-    </h2>
-    
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-        <nav class="flex overflow-x-auto" id="categoryTabs">
-            <button onclick="filterBooks('all')" 
-                    class="category-tab active min-w-[120px] px-6 py-4 text-gray-700 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300">
-                <i class="fas fa-books mr-2"></i>Semua
-            </button>
-            
-            <% if (categories && categories.length > 0) { %>
-                <% categories.forEach(category => { 
-                    const iconClass = {
-                        'fiction': 'fas fa-book',
-                        'non-fiction': 'fas fa-book-open',
-                        'science': 'fas fa-flask',
-                        'technology': 'fas fa-laptop-code',
-                        'history': 'fas fa-history',
-                        'biography': 'fas fa-user',
-                        'mathematics': 'fas fa-calculator',
-                        'literature': 'fas fa-feather-alt'
-                    }[category.slug] || 'fas fa-book';
-                %>
-                    <button onclick="filterBooks('<%= category.slug %>')"
-                            class="category-tab min-w-[120px] px-6 py-4 text-gray-700 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-300">
-                        <i class="<%= iconClass %> mr-2"></i><%= category.name %>
-                    </button>
-                <% }); %>
-            <% } %>
-        </nav>
+    <!-- Category Navigation Tabs -->
+    <div class="mb-6 text-center mx-auto">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center justify-center">
+            <span class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-th-large text-blue-600"></i>
+            </span>
+            Kategori Buku
+        </h2>
+        
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden px-6 py-4 space-y-4">
+            <input type="text" id="searchInput" placeholder="Search by book name or author..." 
+                   class="w-full max-w-xs mx-auto border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300" />
+            <select id="categorySelect" class="w-full max-w-xs mx-auto border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300" onchange="filterBooks()">
+                <option value="all" selected><i class="fas fa-books"></i> Semua</option>
+                <% if (categories && categories.length > 0) { %>
+                    <% categories.forEach(category => { 
+                        const iconClass = {
+                            'fiction': 'fas fa-book',
+                            'non-fiction': 'fas fa-book-open',
+                            'science': 'fas fa-flask',
+                            'technology': 'fas fa-laptop-code',
+                            'history': 'fas fa-history',
+                            'biography': 'fas fa-user',
+                            'mathematics': 'fas fa-calculator',
+                            'literature': 'fas fa-feather-alt'
+                        }[category.slug] || 'fas fa-book';
+                    %>
+                        <option value="<%= category.slug %>"><%= category.name %></option>
+                    <% }); %>
+                <% } %>
+            </select>
+        </div>
     </div>
-</div>
 
 <!-- Featured Books Section -->
-<div class="mb-16">
+<div class="mb-28">
     <div id="booksContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <% if (featuredBooks && featuredBooks.length > 0) { %>
             <% featuredBooks.forEach(book => { %>
@@ -121,6 +116,13 @@
                                 <div class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">
                                     <i class="fas fa-star mr-1"></i> Popular
                                 </div>
+                            <% } %>
+                            <% if (user) { %>
+                                <button data-book-id="<%= book.id %>" 
+                                        class="favorite-btn absolute top-2 left-2 hover:text-red-500 focus:outline-none z-10"
+                                        title="Toggle Favorite">
+                                    <i class="fas fa-heart <%= book.is_favorited ? 'text-red-500' : 'text-gray-400' %>"></i>
+                                </button>
                             <% } %>
                         </div>
                         <div class="p-6">
@@ -155,6 +157,117 @@
         <% } %>
     </div>
 </div>
+
+<!-- Articles Section -->
+<div class="mb-16">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center justify-center">
+        <span class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+            <i class="fas fa-newspaper text-blue-600"></i>
+        </span>
+        Artikel Terbaru
+    </h2>
+
+    <!-- Article Filter UI -->
+    <div class="mb-6 text-center mx-auto max-w-md">
+        <input type="text" id="articleSearchInput" placeholder="Search articles by title..." 
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300 mb-4" />
+        <select id="articleCategorySelect" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300">
+            <option value="all" selected>Semua Kategori</option>
+            <% if (categories && categories.length > 0) { %>
+                <% categories.forEach(category => { %>
+                    <option value="<%= category.slug %>"><%= category.name %></option>
+                <% }); %>
+            <% } %>
+        </select>
+    </div>
+
+    <div id="articlesContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% if (latestArticles && latestArticles.length > 0) { %>
+            <% latestArticles.forEach(article => { %>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300">
+                    <div class="h-48 bg-blue-100 relative">
+                        <% if (article.cover) { %>
+                            <img src="<%= article.cover %>" alt="<%= article.title %>" class="w-full h-full object-cover">
+                        <% } else { %>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <i class="fas fa-newspaper text-5xl text-blue-300"></i>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2"><%= article.title %></h3>
+                        <p class="text-gray-600 text-sm mb-2"><%= article.excerpt %>...</p>
+                        <a href="/articles/<%= article.id %>" class="text-blue-600 hover:underline font-semibold">Baca Selengkapnya</a>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="col-span-3 text-center py-8">
+                <div class="text-gray-500">Tidak ada artikel tersedia saat ini.</div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Article filtering function
+    async function fetchAndRenderArticles() {
+        const categorySelect = document.getElementById('articleCategorySelect');
+        const searchInput = document.getElementById('articleSearchInput');
+        const selectedCategory = categorySelect ? categorySelect.value : 'all';
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+        try {
+            const response = await fetch('/api/articles/filter?category=' + encodeURIComponent(selectedCategory) + '&search=' + encodeURIComponent(searchTerm));
+            const data = await response.json();
+            if (data.success) {
+                const articles = data.articles;
+                const articlesContainer = document.getElementById('articlesContainer');
+                articlesContainer.innerHTML = '';
+
+                if (articles.length === 0) {
+                    articlesContainer.innerHTML = '<div class="col-span-3 text-center py-8"><div class="text-gray-500">Tidak ada artikel tersedia saat ini.</div></div>';
+                    return;
+                }
+
+                articles.forEach(function(article) {
+                    var cover = article.cover ? article.cover : '';
+                    var articleCard = document.createElement('div');
+                    articleCard.className = 'bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300';
+                    var coverHtml = '';
+                    if (cover) {
+                        coverHtml = '<img src="' + cover + '" alt="' + article.title + '" class="w-full h-full object-cover">';
+                    } else {
+                        coverHtml = '<div class="w-full h-full flex items-center justify-center"><i class="fas fa-newspaper text-5xl text-blue-300"></i></div>';
+                    }
+                    articleCard.innerHTML = '<div class="h-48 bg-blue-100 relative">' + coverHtml + '</div>' +
+                        '<div class="p-6">' +
+                        '<h3 class="text-lg font-semibold text-gray-800 mb-2">' + article.title + '</h3>' +
+                        '<p class="text-gray-600 text-sm mb-2">' + article.excerpt + '...</p>' +
+                        '<a href="/articles/' + article.id + '" class="text-blue-600 hover:underline font-semibold">Baca Selengkapnya</a>' +
+                        '</div>';
+                    articlesContainer.appendChild(articleCard);
+                });
+            } else {
+                console.error('Failed to fetch articles');
+            }
+        } catch (error) {
+            console.error('Error fetching articles:', error);
+        }
+    }
+
+    // Attach event listeners for article filter inputs
+    var articleCategorySelect = document.getElementById('articleCategorySelect');
+    var articleSearchInput = document.getElementById('articleSearchInput');
+    if (articleCategorySelect) {
+        articleCategorySelect.addEventListener('change', fetchAndRenderArticles);
+    }
+    if (articleSearchInput) {
+        articleSearchInput.addEventListener('input', fetchAndRenderArticles);
+    }
+});
+</script>
 
 <!-- Library Services -->
 <div class="bg-gradient-to-br from-blue-50 via-white to-blue-50 rounded-xl shadow-xl p-12 mb-12">
@@ -205,7 +318,6 @@
         <form id="borrowForm" class="space-y-4">
             <input type="hidden" id="bookId" name="book_id">
             
-            <!-- Loan Date -->
             <div>
                 <label for="loansDate" class="block text-sm font-semibold text-gray-700 mb-2">
                     <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>Tanggal Peminjaman
@@ -215,23 +327,15 @@
                        required>
             </div>
             
-            <!-- Loan Duration -->
             <div>
                 <label for="loanDuration" class="block text-sm font-semibold text-gray-700 mb-2">
                     <i class="fas fa-clock mr-2 text-blue-600"></i>Durasi Peminjaman
                 </label>
-                <select id="loanDuration" name="loan_duration" 
-                        class="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
-                        required>
-                    <option value="">Pilih durasi peminjaman</option>
-                    <option value="7">7 hari</option>
-                    <option value="14">14 hari (2 minggu)</option>
-                    <option value="21">21 hari (3 minggu)</option>
-                    <option value="30">30 hari (1 bulan)</option>
-                </select>
+<input type="number" id="loanDuration" name="loan_duration" min="1" placeholder="Masukkan durasi peminjaman (hari)" 
+       class="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+       required />
             </div>
             
-            <!-- Due Date (Auto calculated) -->
             <div>
                 <label for="dueDate" class="block text-sm font-semibold text-gray-700 mb-2">
                     <i class="fas fa-calendar-check mr-2 text-blue-600"></i>Tanggal Jatuh Tempo
@@ -242,7 +346,6 @@
                 <p class="text-xs text-gray-500 mt-1">Otomatis dihitung berdasarkan tanggal peminjaman dan durasi</p>
             </div>
             
-            <!-- Notes/Purpose -->
             <div>
                 <label for="borrowPurpose" class="block text-sm font-semibold text-gray-700 mb-2">
                     <i class="fas fa-sticky-note mr-2 text-blue-600"></i>Tujuan Peminjaman (Opsional)
@@ -252,7 +355,6 @@
                           placeholder="Contoh: Untuk tugas kuliah, penelitian, bacaan pribadi, dll."></textarea>
             </div>
             
-            <!-- Terms and Conditions -->
             <div class="bg-blue-50 p-4 rounded-lg">
                 <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
                     <i class="fas fa-info-circle mr-2 text-blue-600"></i>Syarat dan Ketentuan
@@ -284,19 +386,6 @@
             </div>
         </form>
     </div>
-    <% } else { %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        <% popularBooks.forEach(book => { %>
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <img src="<%= book.cover || '/images/default-book-cover.png' %>" alt="<%= book.name %>" class="w-full h-48 object-cover">
-            <div class="p-4">
-                <h3 class="font-semibold text-lg text-gray-800 mb-2"><%= book.name %></h3>
-                <p class="text-gray-600 text-sm">Penulis: <%= book.author || 'Tidak diketahui' %></p>
-            </div>
-        </div>
-        <% }) %>
-    </div>
-    <% } %>
 </div>
 
 <!-- Success/Error Messages -->
@@ -364,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Typing animation
     const typingText = document.getElementById('typing-text');
     const messages = [
-        'Selamat Datang di Perpustakaan Digital',
+        'Selamat Datang di Perpustakaan Digital SMK Jakarta Pusat 1',
         'Jelajahi Dunia Pengetahuan Melalui Koleksi Digital Kami',
         'Temukan Ribuan Buku dan Artikel Menarik',
         'Baca Dimana Saja, Kapan Saja'
@@ -414,33 +503,208 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start the animation
     animateTypingText();
 
-    // Category filtering
-    window.filterBooks = function(category) {
-        // Update active tab
-        document.querySelectorAll('.category-tab').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        event.currentTarget.classList.add('active');
+    // Remove old client-side filtering function and implement new AJAX filtering
+    async function fetchAndRenderBooks() {
+        const categorySelect = document.getElementById('categorySelect');
+        const searchInput = document.getElementById('searchInput');
+        const selectedCategory = categorySelect ? categorySelect.value : 'all';
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
-        // Filter books
-        const books = document.querySelectorAll('.book-card');
-        books.forEach(book => {
-            if (category === 'all' || book.dataset.category === category) {
-                book.classList.remove('hidden');
+        try {
+            const response = await fetch('/api/books/filter?category=' + encodeURIComponent(selectedCategory) + '&search=' + encodeURIComponent(searchTerm), { credentials: 'include' });
+            const data = await response.json();
+            if (data.success) {
+                const books = data.books;
+
+                const booksContainer = document.getElementById('booksContainer');
+                booksContainer.innerHTML = '';
+
+                if (books.length === 0) {
+                    booksContainer.innerHTML = '<div class="col-span-4 text-center py-8"><div class="text-gray-500">No books available at the moment.</div></div>';
+                    return;
+                }
+
+                books.forEach(function(book) {
+                    const categorySlug = book.category_name ? book.category_name.toLowerCase().replace(/\s+/g, '-') : 'uncategorized';
+                    const isPopular = book.is_popular;
+                    const isAvailable = book.is_available;
+                    const cover = book.cover ? book.cover : '';
+                    const author = book.author ? book.author : 'Unknown Author';
+                    const yearPublisher = book.year_publisher ? book.year_publisher : '';
+                    const bookId = book.id;
+                    const bookName = book.name;
+
+                    let popularBadge = '';
+                    if (isPopular) {
+                        popularBadge = '<div class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">' +
+                            '<i class="fas fa-star mr-1"></i> Popular' +
+                            '</div>';
+                    }
+
+                    let favoriteBtn = '<button data-book-id="' + bookId + '" ' +
+                        'class="favorite-btn absolute top-2 left-2 hover:text-red-500 focus:outline-none z-10" ' +
+                        'title="Toggle Favorite">' +
+                        '<i class="fas fa-heart text-gray-400"></i>' +
+                        '</button>';
+
+                    let borrowBtn = '';
+                    if (isAvailable) {
+                        borrowBtn = '<button data-book-id="' + bookId + '" ' +
+                            'data-book-title="' + bookName + '" ' +
+                            'class="borrow-btn w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">' +
+                            '<i class="fas fa-book-reader mr-2"></i> Pinjam Buku' +
+                            '</button>';
+                    } else {
+                        borrowBtn = '<a href="/auth/login" class="block text-center w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">' +
+                            '<i class="fas fa-sign-in-alt mr-2"></i> Login untuk Meminjam' +
+                            '</a>';
+                    }
+
+                    const bookCard = document.createElement('div');
+                    bookCard.className = 'book-card';
+                    bookCard.dataset.category = categorySlug;
+                    let coverHtml = '';
+                    if (cover) {
+                        coverHtml = '<img src="' + cover + '" alt="' + bookName + '" class="w-full h-full object-cover">';
+                    } else {
+                        coverHtml = '<div class="w-full h-full flex items-center justify-center">' +
+                            '<i class="fas fa-book text-5xl text-blue-300"></i>' +
+                            '</div>';
+                    }
+                    bookCard.innerHTML = '<div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 relative">' +
+                        '<div class="h-48 bg-blue-100 relative">' +
+                        coverHtml +
+                        popularBadge +
+                        favoriteBtn +
+                        '</div>' +
+                        '<div class="p-6">' +
+                        '<div class="text-xs text-blue-600 font-semibold mb-2">' + (book.category_name || 'Uncategorized') + '</div>' +
+                        '<h3 class="text-lg font-semibold text-gray-800 mb-2">' + bookName + '</h3>' +
+                        '<p class="text-gray-600 text-sm mb-2">' + author + '</p>' +
+                        '<div class="flex justify-between items-center mt-4">' +
+                        '<span class="text-sm text-gray-500">' + yearPublisher + '</span>' +
+                        '<span class="px-2 py-1 rounded-full text-xs ' + (isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') + '">' +
+                        (isAvailable ? 'Available' : 'Not Available') +
+                        '</span>' +
+                        '</div>' +
+                        borrowBtn +
+                        '</div>' +
+                        '</div>';
+
+                    booksContainer.appendChild(bookCard);
+                });
+
+                // Re-attach event listeners for borrow and favorite buttons
+                attachEventListeners();
             } else {
-                book.classList.add('hidden');
+                showMessage('Failed to fetch books', 'error');
             }
+        } catch (error) {
+            console.error('Error fetching books:', error);
+            showMessage('Error fetching books', 'error');
+        }
+    }
+
+    // Attach event listeners for borrow and favorite buttons
+    function attachEventListeners() {
+        // Borrow buttons
+        document.querySelectorAll('.borrow-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const bookId = this.dataset.bookId;
+                const bookTitle = this.dataset.bookTitle;
+                openBorrowModal(bookId, bookTitle);
+            });
+        });
+
+        // Favorite buttons
+        document.querySelectorAll('.favorite-btn').forEach(button => {
+            button.addEventListener('click', async function(event) {
+                event.preventDefault();
+                const bookId = this.dataset.bookId || this.getAttribute('data-book-id');
+                if (!bookId) return;
+
+                try {
+                    const response = await fetch('/dashboard/user/favorite/toggle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ bookId: parseInt(bookId) }),
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        const icon = this.querySelector('i.fas.fa-heart');
+                        if (result.favorited) {
+                            icon.classList.remove('text-gray-400');
+                            icon.classList.add('text-red-500');
+                            showMessage('Buku berhasil ditambahkan ke favorit', 'success');
+                        } else {
+                            icon.classList.remove('text-red-500');
+                            icon.classList.add('text-gray-400');
+                            showMessage('Buku berhasil dihapus dari favorit', 'success');
+                        }
+                    } else {
+                        showMessage(result.error || 'Gagal memperbarui favorit', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error toggling favorite:', error);
+                    showMessage('Terjadi kesalahan saat memperbarui favorit', 'error');
+                }
+            });
         });
     }
 
-    // Set up borrow button click handlers
-    document.querySelectorAll('.borrow-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const bookId = this.dataset.bookId;
-            const bookTitle = this.dataset.bookTitle;
-            openBorrowModal(bookId, bookTitle);
-        });
+    // Event listeners for category select and search input
+    document.getElementById('categorySelect')?.addEventListener('change', fetchAndRenderBooks);
+    document.getElementById('searchInput')?.addEventListener('input', fetchAndRenderBooks);
+
+    // Initial fetch and render
+
+// Set up borrow button click handlers
+document.querySelectorAll('.borrow-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const bookId = this.dataset.bookId;
+        const bookTitle = this.dataset.bookTitle;
+        openBorrowModal(bookId, bookTitle);
     });
+});
+
+// Set up favorite button click handlers
+document.querySelectorAll('.favorite-btn').forEach(button => {
+    button.addEventListener('click', async function(event) {
+        event.preventDefault();
+        const bookId = this.dataset.bookId || this.getAttribute('data-book-id');
+        if (!bookId) return;
+
+        try {
+            const response = await fetch('/dashboard/user/favorite/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ bookId: parseInt(bookId) }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                const icon = this.querySelector('i.fas.fa-heart');
+                if (result.favorited) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-red-500');
+                    showMessage('Buku berhasil ditambahkan ke favorit', 'success');
+                } else {
+                    icon.classList.remove('text-red-500');
+                    icon.classList.add('text-gray-400');
+                    showMessage('Buku berhasil dihapus dari favorit', 'success');
+                }
+            } else {
+                showMessage(result.error || 'Gagal memperbarui favorit', 'error');
+            }
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+            showMessage('Terjadi kesalahan saat memperbarui favorit', 'error');
+        }
+    });
+});
 });
 
 // Borrow Modal Functions
@@ -557,25 +821,23 @@ function showMessage(message, type) {
     const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
     const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
     
-    messageDiv.className = `${bgColor} text-white px-6 py-4 rounded-lg shadow-lg mb-4 transform transition-all duration-300 translate-x-full`;
-    messageDiv.innerHTML = `
-        <div class="flex items-center">
-            <i class="${icon} mr-3"></i>
-            <span>${message}</span>
-        </div>
-    `;
+    messageDiv.className = bgColor + ' text-white px-6 py-4 rounded-lg shadow-lg mb-4 transform transition-all duration-300 translate-x-full';
+    messageDiv.innerHTML = '<div class="flex items-center">' +
+        '<i class="' + icon + ' mr-3"></i>' +
+        '<span>' + message + '</span>' +
+        '</div>';
     
     messageContainer.appendChild(messageDiv);
     
     // Animate in
-    setTimeout(() => {
+    setTimeout(function() {
         messageDiv.classList.remove('translate-x-full');
     }, 100);
     
     // Remove after 5 seconds
-    setTimeout(() => {
+    setTimeout(function() {
         messageDiv.classList.add('translate-x-full');
-        setTimeout(() => {
+        setTimeout(function() {
             messageContainer.removeChild(messageDiv);
         }, 300);
     }, 5000);

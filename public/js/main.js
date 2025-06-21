@@ -70,21 +70,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Toggle favorite function
-function toggleFavorite(bookId, button) {
-    // This will be implemented when authentication is added
-    console.log('Toggle favorite for book:', bookId);
-    
-    // For now, just toggle the icon
-    const icon = button.querySelector('i');
-    if (icon.classList.contains('far')) {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
-        button.classList.add('text-danger');
-    } else {
-        icon.classList.remove('fas');
-        icon.classList.add('far');
-        button.classList.remove('text-danger');
+async function toggleFavorite(bookId, button) {
+    if (!bookId || !button) return;
+
+    try {
+        const response = await fetch('/dashboard/user/toggle-favorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ bookId })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            const icon = button.querySelector('i');
+            if (!icon) return;
+
+            if (result.favorited) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.classList.add('text-danger');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.classList.remove('text-danger');
+            }
+        } else {
+            showToast(result.error || 'Gagal mengubah favorit', 'danger');
+        }
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+        showToast('Terjadi kesalahan saat mengubah favorit', 'danger');
     }
 }
 

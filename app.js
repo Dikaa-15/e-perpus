@@ -81,6 +81,13 @@ app.use("/dashboard/user", userDashboardRoutes);
 const loansRoutes = require("./routes/loans");
 app.use("/loans", loansRoutes);
 
+const articlesRoutes = require("./routes/articles");
+app.use("/articles", articlesRoutes);
+
+// API routes for books
+const booksApiRoutes = require('./routes/api/books');
+app.use('/api/books', booksApiRoutes);
+
 // Basic route
 const homeController = require('./controllers/homeController');
 app.get('/', homeController.welcome);

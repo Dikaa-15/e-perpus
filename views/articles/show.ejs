@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= article.title %> - E-Perpustakaan</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a> | <a href="/articles">Articles</a>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <article class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-4xl font-bold mb-4"><%= article.title %></h1>
+            <% if (article.cover) { %>
+                <img src="<%= article.cover %>" alt="<%= article.title %>" class="w-full h-auto mb-6 rounded" />
+            <% } %>
+            <div class="article-content text-gray-800 leading-relaxed">
+                <%- article.content %>
+            </div>
+        </article>
+    </main>
+
+    <footer class="text-center p-6 text-gray-600">
+        &copy; <%= new Date().getFullYear() %> E-Perpustakaan
+    </footer>
+</body>
+</html>
